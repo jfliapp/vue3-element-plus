@@ -1,1 +1,3 @@
-探针优选运营后台
+npm install
+
+npm run dev

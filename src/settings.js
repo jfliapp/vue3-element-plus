@@ -1,5 +1,5 @@
 module.exports = {
-  title: '链商后台管理系统',
+  title: '',
 
   /**
    * @type {boolean} true | false

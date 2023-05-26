@@ -27,7 +27,7 @@ const cdn = {
     ]
 }
 
-const name = defaultSettings.title || '链商后台管理系统' // page title
+const name = defaultSettings.title || '后台管理系统' // page title
 
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 

@@ -1,14 +1,14 @@
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosRequestHeaders,
+  // AxiosRequestHeaders,
   AxiosResponse,
   AxiosError
 } from 'axios'
 
 import { ElMessage } from 'element-plus'
 
-import qs from 'qs'
+// import qs from 'qs'
 
 import { config } from '@/config/axios/config'
 
@@ -25,13 +25,13 @@ const service: AxiosInstance = axios.create({
 // request拦截器
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    if (
-      config.method === 'post' &&
-      (config.headers as AxiosRequestHeaders)['Content-Type'] ===
-        'application/x-www-form-urlencoded'
-    ) {
-      config.data = qs.stringify(config.data)
-    }
+    // if (
+    //   config.method === 'post' &&
+    //   (config.headers as AxiosRequestHeaders)['Content-Type'] ===
+    //     'application/x-www-form-urlencoded'
+    // ) {
+    //   config.data = qs.stringify(config.data)
+    // }
     // get参数编码
     if (config.method === 'get' && config.params) {
       let url = config.url as string
@@ -58,7 +58,10 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   (response: AxiosResponse<Recordable>) => {
-    if (response.data.code === result_code) {
+    if (response.data.error === result_code) {
+      response.data = {
+        data: response.data
+      }
       return response.data
     } else {
       ElMessage.error(response.data.message)

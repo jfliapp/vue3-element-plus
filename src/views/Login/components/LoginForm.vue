@@ -5,21 +5,25 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { ElButton, ElCheckbox, ElLink } from 'element-plus'
 import { required } from '@/utils/formRules'
 import { useForm } from '@/hooks/web/useForm'
-import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
+// import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
+import { loginApi } from '@/api/login'
+import { getRoleMenuListApi } from '@/api/menu'
 import type { UserLoginType } from '@/api/login/types'
 import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
-import { usePermissionStore } from '@/store/modules/permission'
+// import { usePermissionStore } from '@/store/modules/permission'
 import { useRouter } from 'vue-router'
-import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
+// import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 const appStore = useAppStore()
 
-const permissionStore = usePermissionStore()
+// const permissionStore = usePermissionStore()
 // const getData = await loginOutApi()
 // console.log(getData)
 
-const { currentRoute, addRoute, push } = useRouter()
+// const { currentRoute, addRoute, push, getRoutes } = useRouter()
+const { currentRoute, push } = useRouter()
 
 const { t } = useI18n()
 
@@ -145,24 +149,30 @@ const getRole = async () => {
   }
   // admin - 模拟后端过滤菜单
   // test - 模拟前端过滤菜单
-  const res =
-    formData.username === 'admin'
-      ? await getAdminRoleApi({ params })
-      : await getTestRoleApi({ params })
+  // const res =
+  //   formData.username === 'admin'
+  //     ? await getAdminRoleApi({ params })
+  //     : await getTestRoleApi({ params })
+
+  const res = await getRoleMenuListApi({ params })
+
   if (res) {
-    const { wsCache } = useCache()
-    const routers = res.data.list || []
-    wsCache.set('roleRouters', routers)
+    // const { wsCache } = useCache()
+    // const routers = res.data.list || []
+    // wsCache.set('roleRouters', routers)
 
-    formData.username === 'admin'
-      ? await permissionStore.generateRoutes('admin', routers).catch(() => {})
-      : await permissionStore.generateRoutes('test', routers).catch(() => {})
+    // formData.username === 'admin'
+    //   ? await permissionStore.generateRoutes('admin', routers).catch(() => {})
+    //   : await permissionStore.generateRoutes('test', routers).catch(() => {})
+    // await permissionStore.generateRoutes('test', routers).catch(() => {})
 
-    permissionStore.getAddRouters.forEach((route) => {
-      addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
-    })
-    permissionStore.setIsAddRouters(true)
-    push({ path: redirect.value || permissionStore.addRouters[0].path })
+    // permissionStore.getAddRouters.forEach((route) => {
+    //   addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
+    // })
+    // permissionStore.setIsAddRouters(true)
+    // console.log(getRoutes(), '-------')
+    // push({ path: redirect.value || permissionStore.addRouters[0].path })
+    push({ path: '/' })
   }
 }
 </script>

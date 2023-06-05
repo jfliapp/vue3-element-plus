@@ -119,7 +119,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       proxy: {
         // 选项写法
         '/api': {
-          target: 'http://58.com/api',
+          // target: 'http://58.com/api',
+          target: 'https://initialcapital.com.tw/api/',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }

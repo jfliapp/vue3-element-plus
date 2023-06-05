@@ -10,11 +10,25 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/level/menu1/menu1-1/menu1-1-1',
+    redirect: '/dashboard',
     name: 'Root',
     meta: {
-      hidden: true
-    }
+      hidden: true,
+      title: t('router.dashboard'),
+      noTagsView: true
+    },
+    children: [
+      {
+        path: '/dashboard',
+        component: import('@/views/Hello/Hello.vue'),
+        name: 'dashboard',
+        meta: {
+          hidden: true,
+          title: t('router.dashboard'),
+          noTagsView: true
+        }
+      }
+    ]
   },
   {
     path: '/redirect',
@@ -37,6 +51,16 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
     path: '/login',
     component: () => import('@/views/Login/Login.vue'),
     name: 'Login',
+    meta: {
+      hidden: true,
+      title: t('router.login'),
+      noTagsView: true
+    }
+  },
+  {
+    path: '/hello',
+    component: () => import('@/views/Hello/Hello.vue'),
+    name: 'Hello',
     meta: {
       hidden: true,
       title: t('router.login'),

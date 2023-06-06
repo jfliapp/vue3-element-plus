@@ -150,7 +150,6 @@ export default defineComponent({
     const renderFormItemWrap = () => {
       // hidden属性表示隐藏，不做渲染
       const { schema = [], isCol } = unref(getProps)
-
       return schema
         .filter((v) => !v.hidden)
         .map((item) => {
@@ -293,7 +292,7 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .@{elNamespace}-form.@{namespace}-form .@{elNamespace}-row {
-  margin-left: 0 !important;
   margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 </style>

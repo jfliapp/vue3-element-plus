@@ -172,7 +172,7 @@ const getRole = async () => {
     // permissionStore.setIsAddRouters(true)
     // console.log(getRoutes(), '-------')
     // push({ path: redirect.value || permissionStore.addRouters[0].path })
-    await permissionStore.generateRoutes('test', []).catch(() => {})
+    await permissionStore.generateRoutes('none', []).catch(() => {})
     push({ path: '/schedule' })
   }
 }

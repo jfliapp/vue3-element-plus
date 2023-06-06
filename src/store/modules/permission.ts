@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { asyncRouterMap, constantRouterMap } from '@/router'
+import { routeList, constantRouterMap } from '@/router'
 import { generateRoutesFn1, generateRoutesFn2, flatMultiLevelRoutes } from '@/utils/routerHelper'
 import { store } from '../index'
 import { cloneDeep } from 'lodash-es'
@@ -48,10 +48,10 @@ export const usePermissionStore = defineStore({
           routerMap = generateRoutesFn2(routers as AppCustomRouteRecordRaw[])
         } else if (type === 'test') {
           // 模拟前端过滤菜单
-          routerMap = generateRoutesFn1(cloneDeep(asyncRouterMap), routers as string[])
+          routerMap = generateRoutesFn1(cloneDeep(routeList), routers as string[])
         } else {
           // 直接读取静态路由表
-          routerMap = cloneDeep(asyncRouterMap)
+          routerMap = cloneDeep(routeList)
         }
         // 动态路由，404一定要放到最后面
         this.addRouters = routerMap.concat([

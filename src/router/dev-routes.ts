@@ -24,6 +24,15 @@ export const devRoutes: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'accessAudit',
+        name: 'RccessAudit',
+        component: () => import('@/views/schedule/accessAudit.vue'),
+        meta: {
+          title: '出入金审核'
+        }
+      },
+
+      {
         path: 'menu2',
         name: 'Menu2',
         component: () => import('@/views/Level/Menu2.vue'),

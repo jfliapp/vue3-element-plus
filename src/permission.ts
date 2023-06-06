@@ -4,10 +4,10 @@ import router from './router'
 // import type { RouteRecordRaw } from 'vue-router'
 import { useTitle } from '@/hooks/web/useTitle'
 import { useNProgress } from '@/hooks/web/useNProgress'
-// import { usePermissionStoreWithOut } from '@/store/modules/permission'
+import { usePermissionStoreWithOut } from '@/store/modules/permission'
 import { usePageLoading } from '@/hooks/web/usePageLoading'
 
-// const permissionStore = usePermissionStoreWithOut()
+const permissionStore = usePermissionStoreWithOut()
 
 // const appStore = useAppStoreWithOut()
 
@@ -36,7 +36,11 @@ router.beforeEach(async (to, from, next) => {
   //     }
 
   //     // 开发者可根据实际情况进行修改
-  //     const roleRouters = wsCache.get('roleRouters') || []
+  // TODO 这个刷新没有数据 需要重新写
+  // const roleRouters = wsCache.get('roleRouters') || []
+  await permissionStore.generateRoutes('none', []).catch((err) => {
+    console.log(err)
+  })
   //     const userInfo = wsCache.get(appStore.getUserInfo)
 
   //     userInfo.role === 'admin'

@@ -15,7 +15,6 @@ import { config } from '@/config/axios/config'
 const { result_code, base_url } = config
 
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
-
 // 创建axios实例
 const service: AxiosInstance = axios.create({
   baseURL: PATH_URL, // api 的 base_url
@@ -65,6 +64,8 @@ service.interceptors.response.use(
       return response.data
     } else {
       ElMessage.error(response.data.message)
+      // ???
+      window.location.href = '/#/login'
     }
   },
   (error: AxiosError) => {

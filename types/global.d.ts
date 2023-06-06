@@ -33,3 +33,7 @@ declare type AxiosConfig = {
   headersType?: string
   responseType?: AxiosResponseType
 }
+
+declare type IResponse<T = any> = {
+  data: T extends any ? T : T & any
+}

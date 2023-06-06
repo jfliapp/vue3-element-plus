@@ -11,14 +11,14 @@ import { getRoleMenuListApi } from '@/api/menu'
 import type { UserLoginType } from '@/api/login/types'
 import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
-// import { usePermissionStore } from '@/store/modules/permission'
+import { usePermissionStore } from '@/store/modules/permission'
 import { useRouter } from 'vue-router'
 // import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 const appStore = useAppStore()
 
-// const permissionStore = usePermissionStore()
+const permissionStore = usePermissionStore()
 // const getData = await loginOutApi()
 // console.log(getData)
 
@@ -172,7 +172,8 @@ const getRole = async () => {
     // permissionStore.setIsAddRouters(true)
     // console.log(getRoutes(), '-------')
     // push({ path: redirect.value || permissionStore.addRouters[0].path })
-    push({ path: '/' })
+    await permissionStore.generateRoutes('test', []).catch(() => {})
+    push({ path: '/schedule' })
   }
 }
 </script>

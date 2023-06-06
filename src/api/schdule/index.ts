@@ -16,3 +16,10 @@ export const getCashinoutListApi = (data: any) => {
     data
   })
 }
+
+export const getTradeTicketsListApi = (data: any) => {
+  return request.post({
+    url: '/admin/trade_tickets',
+    data
+  })
+}

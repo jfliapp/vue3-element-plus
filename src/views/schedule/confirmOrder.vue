@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCashinoutListApi } from '@/api/schdule'
+import { getTradeTicketsListApi } from '@/api/schdule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table'
 import { Search } from '@/components/Search'
@@ -13,7 +13,7 @@ import { ElCheckbox } from 'element-plus'
 // const { t } = useI18n()
 
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
-  getListApi: getCashinoutListApi,
+  getListApi: getTradeTicketsListApi,
   // delListApi: delTableListApi,
   response: {
     list: 'list',
@@ -27,17 +27,17 @@ const tableColumns: tableFieldsType[] = [
   {
     field: 'id',
     prop: 'id',
-    label: '订单ID'
+    label: '委托单ID'
   },
   {
     prop: 'NickName',
     field: 'NickName',
-    label: 'ID/名称'
+    label: '真实姓名'
   },
   {
     prop: 'Owner',
     field: 'Owner',
-    label: '真实姓名'
+    label: '交易账号'
   },
   {
     prop: 'UplineDirect',
@@ -47,82 +47,67 @@ const tableColumns: tableFieldsType[] = [
   {
     prop: 'OwnerType',
     field: 'OwnerType',
-    label: '类型'
+    label: '交易品种'
+  },
+  {
+    prop: 'OwnerType',
+    field: 'OwnerType',
+    label: '交易品种'
   },
   {
     prop: 'PayChannel',
     field: 'PayChannel',
-    label: '支付通道'
+    label: '交易类型'
   },
   {
     prop: 'CurCode',
     field: 'CurCode',
-    label: '币种'
+    label: '委托时间'
   },
   {
     prop: 'Amt',
     field: 'Amt',
-    label: '金额'
+    label: '委托价格'
   },
   {
     prop: 'Status',
     field: 'Status',
-    label: '支付币种'
+    label: '委托价格'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '提币地址'
+    label: '委托数量'
   },
   {
     prop: 'PayChannel',
     field: 'PayChannel',
-    label: '支付方式'
+    label: '止盈'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '对公账户开户行'
+    label: '止损'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '用户银行开户行'
+    label: '最新价格'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '账号'
+    label: '有效时间'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '姓名'
+    label: '是否自动递延'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '支行'
-  },
-  {
-    prop: 'createdat',
-    field: 'createdat',
-    label: '凭证'
-  },
-  {
-    prop: 'Status',
-    field: 'Status',
-    label: '状态'
-  },
-  {
-    prop: 'createdat',
-    field: 'createdat',
-    label: '申请时间'
-  },
-  {
-    prop: 'Desc',
-    field: 'Desc',
-    label: '备注'
+    label: '是否自动追加保证金'
   }
 ]
 const searchParams: tableFieldsType[] = [

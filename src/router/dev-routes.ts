@@ -31,6 +31,14 @@ export const devRoutes: AppRouteRecordRaw[] = [
           title: '出入金审核'
         }
       },
+      {
+        path: 'confirmOrder',
+        name: 'ConfirmOrder',
+        component: () => import('@/views/schedule/confirmOrder.vue'),
+        meta: {
+          title: '配资待确认订单'
+        }
+      },
 
       {
         path: 'menu2',

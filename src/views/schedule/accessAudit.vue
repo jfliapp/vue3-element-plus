@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { getCashinoutListApi } from '@/api/schdule'
 import { ContentWrap } from '@/components/ContentWrap'
-import { Table } from '@/components/Table'
+import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { ElCheckbox } from 'element-plus'
+import { getDate } from '@/utils/date'
 // import { useI18n } from '@/hooks/web/useI18n'
 
 // import { reactive } from 'vue'
@@ -23,7 +23,12 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 
 methods.getList()
 
-const tableColumns: tableFieldsType[] = [
+const tableColumns: TableColumn[] = [
+  {
+    field: 'index',
+    type: 'index',
+    label: '序号'
+  },
   {
     field: 'id',
     prop: 'id',
@@ -200,20 +205,24 @@ const searchParams: tableFieldsType[] = [
     }
   }
 ]
+const fieldHn = [
+  {
+    name: 'date',
+    fn: (item) => {
+      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
+    }
+  }
+]
 </script>
 <template>
   <ContentWrap>
     <Search
       layout="inline"
-      :is-custom="true"
       :showReset="false"
       :schema="searchParams"
+      :fieldHn="fieldHn"
       @search="methods.setSearchParams"
-    >
-      <template #default>
-        <ElCheckbox name="selectall">下级通知</ElCheckbox>
-      </template>
-    </Search>
+    />
 
     <Table
       v-model:pageSize="tableObject.pageSize"

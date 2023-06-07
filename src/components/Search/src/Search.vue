@@ -35,6 +35,10 @@ const props = defineProps({
   // 伸缩的界限字段
   expandField: propTypes.string.def(''),
   inline: propTypes.bool.def(true),
+  fieldHn: {
+    type: Array as PropType<Recordable>,
+    default: () => []
+  },
   model: {
     type: Object as PropType<Recordable>,
     default: () => ({})
@@ -75,8 +79,19 @@ const search = async () => {
   await unref(elFormRef)?.validate(async (isValid) => {
     if (isValid) {
       const { getFormData } = methods
-      const model = await getFormData()
-      emit('search', model)
+      let model = await getFormData()
+      let temp = { ...model }
+      if (props.fieldHn) {
+        props.fieldHn.forEach((item) => {
+          let v = temp![item.name]
+          if (v) {
+            let o = item.fn(v)
+            delete temp[item.name]
+            temp = { ...temp, ...o }
+          }
+        })
+      }
+      emit('search', temp)
     }
   })
 }

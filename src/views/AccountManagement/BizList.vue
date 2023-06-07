@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getSchduleEnduserListApi } from '@/api/schdule'
+import { getBizListApi } from '@/api/accountManagement'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
@@ -12,7 +12,7 @@ import { tableDataFieldType, tableFieldsType } from './types'
 // const { t } = useI18n()
 
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
-  getListApi: getSchduleEnduserListApi,
+  getListApi: getBizListApi,
   // delListApi: delTableListApi,
   response: {
     list: 'list',
@@ -34,9 +34,19 @@ const tableColumns: TableColumn[] = [
     label: 'ID'
   },
   {
-    prop: 'Caption',
-    field: 'Caption',
-    label: '邀请人'
+    prop: 'Code',
+    field: 'Code',
+    label: 'Code'
+  },
+  {
+    prop: 'BindTel',
+    field: 'BindTel',
+    label: '账户ID'
+  },
+  {
+    prop: 'BindMail',
+    field: 'BindMail',
+    label: '名称'
   },
   {
     prop: 'UplineDirect',
@@ -44,34 +54,29 @@ const tableColumns: TableColumn[] = [
     label: '直接上级'
   },
   {
-    prop: 'BindTel',
-    field: 'BindTel',
-    label: '手机号'
-  },
-  {
-    prop: 'BindMail',
-    field: 'BindMail',
-    label: '邮箱'
-  },
-  {
     prop: 'Caption',
     field: 'Caption',
-    label: '证件类型'
+    label: '根上级'
   },
   {
     prop: 'VerName',
     field: 'VerName',
-    label: '姓名'
+    label: '返回地址'
   },
   {
     prop: 'VerIdCardNo',
     field: 'VerIdCardNo',
-    label: '证件号码'
+    label: '手续费费率'
   },
   {
     prop: 'Status',
     field: 'Status',
     label: '状态'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '操作员'
   },
   {
     prop: 'createdat',

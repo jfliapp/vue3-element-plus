@@ -170,7 +170,6 @@ const getRole = async () => {
     //   addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
     // })
     // permissionStore.setIsAddRouters(true)
-    // console.log(getRoutes(), '-------')
     // push({ path: redirect.value || permissionStore.addRouters[0].path })
     await permissionStore.generateRoutes('none', []).catch(() => {})
     push({ path: '/schedule' })

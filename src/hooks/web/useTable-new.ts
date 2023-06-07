@@ -22,6 +22,7 @@ interface UseTableConfig<T = any> {
   response: {
     list: string
     total?: string
+    inJson?: string // 'a.b'
   }
   // 默认传递的参数
   defaultParams?: Recordable
@@ -61,8 +62,8 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   const paramsObj = computed(() => {
     return {
       ...tableObject.params,
-      pageSize: tableObject.pageSize,
-      pageIndex: tableObject.currentPage
+      size: tableObject.pageSize,
+      page: tableObject.currentPage
     }
   })
 
@@ -131,7 +132,12 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
         tableObject.loading = false
       })
       if (res) {
-        tableObject.tableList = get(res.data || {}, config?.response.list as string)
+        const inJson = config?.response?.inJson
+        let list = get(res.data || {}, config?.response.list as string)
+        if (inJson) {
+          list = list.map((item) => ({ ...item[inJson], ...item }))
+        }
+        tableObject.tableList = list
         tableObject.total = get(res.data || {}, config?.response?.total as string) || 0
       }
     },
@@ -151,8 +157,8 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     setSearchParams: (data: Recordable) => {
       tableObject.currentPage = 1
       tableObject.params = Object.assign(tableObject.params, {
-        pageSize: tableObject.pageSize,
-        pageIndex: tableObject.currentPage,
+        size: tableObject.pageSize,
+        page: tableObject.currentPage,
         ...data
       })
       methods.getList()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getTradeTicketsListApi } from '@/api/schdule'
 import { ContentWrap } from '@/components/ContentWrap'
-import { Table } from '@/components/Table'
+import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { exportExcel } from '@/utils/export'
@@ -27,7 +27,12 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 
 methods.getList()
 
-const tableColumns: tableFieldsType[] = [
+const tableColumns: TableColumn[] = [
+  {
+    field: 'index',
+    type: 'index',
+    label: '序号'
+  },
   {
     field: 'id',
     prop: 'id',
@@ -76,16 +81,11 @@ const tableColumns: tableFieldsType[] = [
   {
     prop: 'Status',
     field: 'Status',
-    label: '委托价格',
+    label: '委托数量',
     formatter: (item) => {
       if (item.Status === 5) return '6'
       return item.Status
     }
-  },
-  {
-    prop: 'createdat',
-    field: 'createdat',
-    label: '委托数量'
   },
   {
     prop: 'PayChannel',
@@ -116,6 +116,11 @@ const tableColumns: tableFieldsType[] = [
     prop: 'createdat',
     field: 'createdat',
     label: '是否自动追加保证金'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '操作'
   }
 ]
 const searchParams: tableFieldsType[] = [
@@ -123,8 +128,20 @@ const searchParams: tableFieldsType[] = [
     field: 'term',
     value: '',
     prop: 'term',
-    label: '用户类型',
-    component: 'Select'
+    label: '数据',
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '模拟',
+          value: 0
+        },
+        {
+          label: '真实',
+          value: 1
+        }
+      ]
+    }
   },
   {
     field: 'partnerterm',
@@ -136,14 +153,16 @@ const searchParams: tableFieldsType[] = [
   {
     field: 'selectall',
     prop: 'selectall',
-    label: '',
-    labelWidth: 0,
-    component: 'Checkbox',
-    value: [],
+    label: '包含下级',
+    component: 'Select',
     componentProps: {
       options: [
         {
-          label: '包含下级',
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
           value: '1'
         }
       ]
@@ -153,7 +172,7 @@ const searchParams: tableFieldsType[] = [
     field: 'euterm',
     value: '',
     prop: 'euterm',
-    label: '',
+    label: '用户Id',
     labelWidth: 0,
     component: 'Input'
   },
@@ -161,35 +180,40 @@ const searchParams: tableFieldsType[] = [
     field: 'term1',
     value: '',
     prop: 'term',
-    label: '出入金通道',
-    component: 'Select'
-  },
-  {
-    field: 'term',
-    value: '',
-    prop: 'term',
-    label: '出入金类型',
-    component: 'Select'
-  },
-  {
-    field: 'term',
-    value: '',
-    prop: 'term',
-    label: '币种',
+    label: '交易账户',
     component: 'Input'
   },
   {
-    field: 'date',
+    field: 'term',
     value: '',
-    prop: 'date',
-    label: '',
-    rangeSeparator: 'To',
-    type: 'daterange',
-    component: 'DatePicker'
+    prop: 'term',
+    label: '订单ID',
+    component: 'Input'
+  },
+  {
+    field: 'term',
+    value: '',
+    prop: 'term',
+    label: '交易类型',
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '1',
+          value: 1
+        }
+      ]
+    }
+  },
+  {
+    field: 'term',
+    value: '',
+    prop: 'term',
+    label: 'IP查询',
+    component: 'Input'
   }
 ]
 const getExcel = () => {
-  console.log('getExcel')
   exportExcel(tableObject.tableList, tableColumns)
 }
 </script>
@@ -197,7 +221,6 @@ const getExcel = () => {
   <ContentWrap>
     <Search
       layout="inline"
-      :is-custom="true"
       :showReset="false"
       :show-export-excel="true"
       :schema="searchParams"

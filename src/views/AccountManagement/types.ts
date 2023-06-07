@@ -1,9 +1,8 @@
 export interface tableFieldsType extends TableColumn {
-  prop: string
   label: string
-  fixed?: boolean
-  width?: string
   [props: string]: any
+  // fixed?: boolean
+  // width?: string
 }
 export interface tableDataFieldType {
   // orderNum: number
@@ -17,4 +16,10 @@ export interface tableDataFieldType {
   VerIdCardNo: number
   Status: string
   createdat: number
+}
+
+export const partnertype = {
+  0: '运营中心',
+  1: '席位会员',
+  2: '会员下属代理商'
 }

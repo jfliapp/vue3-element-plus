@@ -1,6 +1,7 @@
 declare type TableColumn = {
   field: string
   label?: string
+  isCustome?: boolean
   children?: TableColumn[]
 } & Recordable
 

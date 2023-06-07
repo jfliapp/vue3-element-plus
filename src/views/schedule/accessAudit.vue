@@ -143,15 +143,18 @@ const searchParams: tableFieldsType[] = [
   {
     field: 'selectall',
     prop: 'selectall',
-    label: '',
+    label: '是否包含下级',
     labelWidth: 0,
-    component: 'Checkbox',
-    value: [],
+    component: 'Select',
     componentProps: {
       options: [
         {
-          label: '包含下级',
-          value: '1'
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
+          value: 1
         }
       ]
     }
@@ -160,7 +163,7 @@ const searchParams: tableFieldsType[] = [
     field: 'euterm',
     value: '',
     prop: 'euterm',
-    label: '',
+    label: '机构ID',
     labelWidth: 0,
     component: 'Input'
   },
@@ -189,10 +192,12 @@ const searchParams: tableFieldsType[] = [
     field: 'date',
     value: '',
     prop: 'date',
-    label: '',
+    label: '查询时间',
     rangeSeparator: 'To',
-    type: 'daterange',
-    component: 'DatePicker'
+    component: 'DatePicker',
+    componentProps: {
+      type: 'daterange'
+    }
   }
 ]
 </script>

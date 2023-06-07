@@ -20,7 +20,7 @@ const props = defineProps({
   // 是否需要栅格布局
   isCol: propTypes.bool.def(false),
   // 表单label宽度
-  labelWidth: propTypes.oneOfType([String, Number]).def('auto'),
+  labelWidth: propTypes.oneOfType([String, Number]).def('150'),
   // 操作按钮风格位置
   layout: propTypes.string.validate((v: string) => ['inline', 'bottom'].includes(v)).def('inline'),
   // 底部按钮的对齐方式
@@ -28,6 +28,7 @@ const props = defineProps({
     .validate((v: string) => ['left', 'center', 'right'].includes(v))
     .def('center'),
   showSearch: propTypes.bool.def(true),
+  showExportExcel: propTypes.bool.def(false),
   showReset: propTypes.bool.def(true),
   // 是否显示伸缩
   expand: propTypes.bool.def(false),
@@ -40,7 +41,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['search', 'reset'])
+const emit = defineEmits(['search', 'exportExcel', 'reset'])
 
 const visible = ref(true)
 
@@ -80,6 +81,10 @@ const search = async () => {
   })
 }
 
+const exportExcel = async () => {
+  emit('exportExcel')
+}
+
 const reset = async () => {
   unref(elFormRef)?.resetFields()
   const { getFormData } = methods
@@ -114,6 +119,10 @@ const setVisible = () => {
         <ElButton v-if="showSearch" type="primary" @click="search">
           <Icon icon="ep:search" class="mr-5px" />
           {{ t('common.query') }}
+        </ElButton>
+        <ElButton v-if="showExportExcel" @click="exportExcel">
+          <Icon icon="ep:export-right" class="mr-5px" />
+          {{ t('导出') }}
         </ElButton>
         <ElButton v-if="showReset" @click="reset">
           <Icon icon="ep:refresh-right" class="mr-5px" />

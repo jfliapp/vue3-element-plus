@@ -4,8 +4,8 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
+import { exportExcel } from '@/utils/export'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { ElCheckbox } from 'element-plus'
 // import { useI18n } from '@/hooks/web/useI18n'
 
 // import { reactive } from 'vue'
@@ -15,6 +15,10 @@ import { ElCheckbox } from 'element-plus'
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
   getListApi: getTradeTicketsListApi,
   // delListApi: delTableListApi,
+  defaultParams: {
+    trademode: 2,
+    status: 5
+  },
   response: {
     list: 'list',
     total: 'listcount'
@@ -72,7 +76,11 @@ const tableColumns: tableFieldsType[] = [
   {
     prop: 'Status',
     field: 'Status',
-    label: '委托价格'
+    label: '委托价格',
+    formatter: (item) => {
+      if (item.Status === 5) return '6'
+      return item.Status
+    }
   },
   {
     prop: 'createdat',
@@ -180,6 +188,10 @@ const searchParams: tableFieldsType[] = [
     component: 'DatePicker'
   }
 ]
+const getExcel = () => {
+  console.log('getExcel')
+  exportExcel(tableObject.tableList, tableColumns)
+}
 </script>
 <template>
   <ContentWrap>
@@ -187,13 +199,11 @@ const searchParams: tableFieldsType[] = [
       layout="inline"
       :is-custom="true"
       :showReset="false"
+      :show-export-excel="true"
       :schema="searchParams"
       @search="methods.setSearchParams"
-    >
-      <template #default>
-        <ElCheckbox name="selectall">下级通知</ElCheckbox>
-      </template>
-    </Search>
+      @export-excel="getExcel"
+    />
 
     <Table
       v-model:pageSize="tableObject.pageSize"

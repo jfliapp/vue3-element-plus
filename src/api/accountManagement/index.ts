@@ -16,6 +16,13 @@ export const getBizListApi = (data: any) => {
     data
   })
 }
+// 用户详情
+export const getUserDetailApi = () => {
+  return request.post({
+    url: '/admin/userdetail'
+  })
+}
+
 //获取城市列表
 export const getCountry = (data: any) => {
   return request.post({

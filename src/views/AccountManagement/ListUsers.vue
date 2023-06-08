@@ -276,7 +276,7 @@ const searchParams: tableFieldsType[] = [
   }
 ]
 const tradersList = [
-  { name: '用户详情', url: '/accountManagement/detailTraders' },
+  { name: '用户详情', url: '/accountManagement/detailUsers' },
   { name: '钱包资产', url: '/accountManagement/walletAsset' },
   { name: '出入金记录', url: '/accountManagement/cashRecord' },
   { name: '资金流水', url: '/accountManagement/moneyFlow' },

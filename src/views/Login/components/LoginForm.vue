@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, unref, watch } from 'vue'
-import { Form } from '@/components/Form'
+import { Form } from '@/components/Form-new'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElButton, ElCheckbox, ElLink } from 'element-plus'
 import { required } from '@/utils/formRules'

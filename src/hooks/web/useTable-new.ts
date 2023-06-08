@@ -1,8 +1,8 @@
-import { Table, TableExpose } from '@/components/Table'
+import { Table, TableExpose } from '@/components/Table-new'
 import { ElTable, ElMessageBox, ElMessage } from 'element-plus'
 import { ref, reactive, watch, computed, unref, nextTick } from 'vue'
 import { get } from 'lodash-es'
-import type { TableProps } from '@/components/Table/src/types'
+import type { TableProps } from '@/components/Table-new/src/types'
 import { useI18n } from '@/hooks/web/useI18n'
 // import { TableSetPropsType } from '@/types/table'
 
@@ -22,7 +22,7 @@ interface UseTableConfig<T = any> {
   response: {
     list: string
     total?: string
-    inJson?: string // 'a.b'
+    inJson?: string // 'a|A|c'
   }
   // 默认传递的参数
   defaultParams?: Recordable
@@ -135,7 +135,12 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
         const inJson = config?.response?.inJson
         let list = get(res.data || {}, config?.response.list as string)
         if (inJson) {
-          list = list.map((item) => ({ ...item[inJson], ...item }))
+          const arr = inJson.split('|')
+          list = list.map((item) => {
+            let temp = { ...item }
+            arr.forEach((li) => (temp = { ...temp[li], ...temp }))
+            return temp
+          })
         }
         tableObject.tableList = list
         tableObject.total = get(res.data || {}, config?.response?.total as string) || 0

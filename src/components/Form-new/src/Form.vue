@@ -295,4 +295,13 @@ export default defineComponent({
   margin-right: 0 !important;
   margin-left: 0 !important;
 }
+
+.el-form-item {
+  // 手动让长度100%
+  width: 100%;
+
+  .el-select {
+    width: 100%;
+  }
+}
 </style>

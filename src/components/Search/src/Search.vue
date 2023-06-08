@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from '@/components/Form'
+import { Form } from '@/components/Form-new'
 import { PropType, computed, unref, ref } from 'vue'
 import { propTypes } from '@/utils/propTypes'
 import { ElButton } from 'element-plus'
@@ -18,9 +18,9 @@ const props = defineProps({
     default: () => []
   },
   // 是否需要栅格布局
-  isCol: propTypes.bool.def(false),
+  isCol: propTypes.bool.def(true),
   // 表单label宽度
-  labelWidth: propTypes.oneOfType([String, Number]).def('150'),
+  labelWidth: propTypes.oneOfType([String, Number]).def('auto'),
   // 操作按钮风格位置
   layout: propTypes.string.validate((v: string) => ['inline', 'bottom'].includes(v)).def('inline'),
   // 底部按钮的对齐方式
@@ -68,6 +68,13 @@ const newSchema = computed(() => {
       }
     ])
   }
+  schema.map((item) => {
+    // Search 组件查询默认都是4个一组
+    item.colProps = {
+      span: 8
+    }
+    return item
+  })
   return schema
 })
 
@@ -123,6 +130,7 @@ const setVisible = () => {
   <Form
     :is-custom="false"
     :label-width="labelWidth"
+    label-position="right"
     hide-required-asterisk
     :inline="inline"
     :is-col="isCol"

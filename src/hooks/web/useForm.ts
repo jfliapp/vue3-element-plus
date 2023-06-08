@@ -1,7 +1,7 @@
-import type { Form, FormExpose } from '@/components/Form'
+import type { Form, FormExpose } from '@/components/Form-new'
 import type { ElForm } from 'element-plus'
 import { ref, unref, nextTick } from 'vue'
-import type { FormProps } from '@/components/Form/src/types'
+import type { FormProps } from '@/components/Form-new/src/types'
 
 export const useForm = (props?: FormProps) => {
   // From实例

@@ -6,6 +6,8 @@ import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
 import { getDate } from '@/utils/date'
+import { getLabel } from '@/utils/tsxHelper'
+import { Options } from '@/types/Options'
 // import { useI18n } from '@/hooks/web/useI18n'
 
 // import { reactive } from 'vue'
@@ -22,6 +24,20 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 })
 
 methods.getList()
+const CashType: Options[] = [
+  {
+    value: -1,
+    label: '全部'
+  },
+  {
+    value: 2,
+    label: '入金'
+  },
+  {
+    value: 3,
+    label: '出金'
+  }
+]
 
 const tableColumns: TableColumn[] = [
   {
@@ -50,9 +66,12 @@ const tableColumns: TableColumn[] = [
     label: '所属机构'
   },
   {
-    prop: 'OwnerType',
-    field: 'OwnerType',
-    label: '类型'
+    prop: 'CashType',
+    field: 'CashType',
+    label: '类型',
+    formatter: function (row) {
+      return getLabel(CashType, row.CashType)
+    }
   },
   {
     prop: 'PayChannel',
@@ -180,11 +199,14 @@ const searchParams: tableFieldsType[] = [
     component: 'Select'
   },
   {
-    field: 'term',
+    field: 'cashtype',
     value: '',
-    prop: 'term',
+    prop: 'cashtype',
     label: '出入金类型',
-    component: 'Select'
+    component: 'Select',
+    componentProps: {
+      options: CashType
+    }
   },
   {
     field: 'term',

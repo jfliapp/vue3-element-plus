@@ -26,7 +26,7 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
   response: {
     list: 'list',
     total: 'listcount',
-    inJson: 'BizDetail'
+    inJson: 'BizDetail|item'
   }
 })
 
@@ -39,7 +39,7 @@ const tableColumns: TableColumn[] = [
     label: '序号'
   },
   {
-    field: 'Code',
+    field: 'id',
     label: '交易商ID'
   },
   {
@@ -126,7 +126,6 @@ const goUrl = (item, url) => {
     <Table
       v-model:pageSize="tableObject.pageSize"
       v-model:currentPage="tableObject.currentPage"
-      col-props-field="'BizDetail'"
       :columns="tableColumns"
       :data="tableObject.tableList"
       :loading="tableObject.loading"
@@ -135,7 +134,7 @@ const goUrl = (item, url) => {
       }"
       @register="register"
     >
-      <template #TraderId="scope">
+      <template #id="scope">
         <div>
           <ElPopover effect="light" trigger="hover" placement="right" width="auto">
             <template #default>

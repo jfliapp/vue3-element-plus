@@ -5,7 +5,7 @@ import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { ElPopover, ElButton } from 'element-plus'
+import { ElPopover, ElScrollbar, ElButton } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useRouter } from 'vue-router'
@@ -319,23 +319,25 @@ const goUrl = (item, url) => {
         <div>
           <ElPopover effect="light" trigger="click" placement="right" width="auto">
             <template #default>
-              <div class="flex flex-col">
-                <div
-                  class="flex justify-between align-middle p-1 cursor-pointer"
-                  v-for="(item, idx) in tradersList"
-                  :key="idx"
-                  @click="goUrl(scope.row, item.url)"
-                >
-                  <span>
-                    {{ item.name }}
-                  </span>
-                  <Icon
-                    icon="ep:warning"
-                    color="var(--el-color-primary)"
-                    class="ml-2px relative top-1px"
-                  />
+              <ElScrollbar always :height="240">
+                <div class="flex flex-col">
+                  <div
+                    class="flex justify-between align-middle p-1 cursor-pointer pr-3"
+                    v-for="(item, idx) in tradersList"
+                    :key="idx"
+                    @click="goUrl(scope.row, item.url)"
+                  >
+                    <span>
+                      {{ item.name }}
+                    </span>
+                    <Icon
+                      icon="ep:warning"
+                      color="var(--el-color-primary)"
+                      class="ml-2px relative top-1px"
+                    />
+                  </div>
                 </div>
-              </div>
+              </ElScrollbar>
             </template>
             <template #reference>
               <div class="text-blue-500 cursor-pointer">

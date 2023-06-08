@@ -1,4 +1,5 @@
 import { tableFieldsType } from './types'
+// -------------------- start --- 用户详情--------------------
 const statusOption = [
   {
     value: 0,
@@ -258,6 +259,38 @@ export const params3: tableFieldsType[] = [
     }
   }
 ]
+export const params4: tableFieldsType[] = [
+  {
+    field: 'partnerterm',
+    value: '',
+    prop: 'partnerterm',
+    label: '登录密码',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    isDisable: true,
+    componentProps: {
+      type: 'password',
+      disabled: true
+    }
+  },
+  {
+    field: 'partnerterm',
+    value: '',
+    prop: 'partnerterm',
+    label: '资金密码',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    isDisable: true,
+    componentProps: {
+      type: 'password',
+      disabled: true
+    }
+  }
+]
 
 export const tableColumns1: TableColumn[] = [
   {
@@ -386,3 +419,4 @@ export const tableColumns5: TableColumn[] = [
   { field: 'x', label: '账户状态' },
   { field: 'x', label: '对手方账户ID' }
 ]
+// -------------------- end --- 用户详情--------------------

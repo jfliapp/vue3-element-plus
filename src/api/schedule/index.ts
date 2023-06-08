@@ -3,7 +3,7 @@ import { useAxios } from '@/hooks/web/useAxios'
 
 const request = useAxios()
 // 注册审核
-export const getSchduleEnduserListApi = (data: any) => {
+export const getScheduleEnduserListApi = (data: any) => {
   return request.post({
     url: '/admin/enduser_list',
     data

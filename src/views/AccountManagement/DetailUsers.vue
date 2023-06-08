@@ -7,55 +7,23 @@ import { reactive, onMounted } from 'vue'
 import { ElRow, ElCol, ElImage } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { getUserDetailApi } from '@/api/accountManagement'
-import { tableFieldsType } from './types'
 import { cloneDeep } from 'lodash-es'
 import {
   params1,
   params2,
   params3,
+  params4,
   tableColumns1,
   tableColumns2,
   tableColumns3,
   tableColumns4,
   tableColumns5
 } from './const'
-
+// cloneDeep 是防止别的地方用到数据同步过去
 const basicParams = reactive(cloneDeep(params1))
 const statusParams = reactive(cloneDeep(params2))
 const authParams = reactive(params3)
-
-const pswParams: tableFieldsType[] = reactive([
-  {
-    field: 'partnerterm',
-    value: '',
-    prop: 'partnerterm',
-    label: '登录密码',
-    component: 'Input',
-    colProps: {
-      span: 24
-    },
-    isDisable: true,
-    componentProps: {
-      type: 'password',
-      disabled: true
-    }
-  },
-  {
-    field: 'partnerterm',
-    value: '',
-    prop: 'partnerterm',
-    label: '资金密码',
-    component: 'Input',
-    colProps: {
-      span: 24
-    },
-    isDisable: true,
-    componentProps: {
-      type: 'password',
-      disabled: true
-    }
-  }
-])
+const pswParams = reactive(params4)
 
 const { register: basicRegister, methods: basicMethods } = useForm()
 const { register: statusRegister, methods: statusMethods } = useForm()

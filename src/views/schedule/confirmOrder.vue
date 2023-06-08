@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getTradeTicketsListApi } from '@/api/schdule'
+import { getTradeTicketsListApi } from '@/api/schedule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'

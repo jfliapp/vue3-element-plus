@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { getSchduleEnduserListApi } from '@/api/schdule'
+import { getScheduleEnduserListApi } from '@/api/schedule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
+import { Form } from '@/components/Form-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { ElPopover, ElScrollbar, ElButton } from 'element-plus'
+import { ElDialog, ElPopover, ElScrollbar, ElButton } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 // import { reactive } from 'vue'
 
@@ -16,7 +18,7 @@ const { t } = useI18n()
 const { push } = useRouter()
 
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
-  getListApi: getSchduleEnduserListApi,
+  getListApi: getScheduleEnduserListApi,
   defaultParams: {
     AuthTradeBrokerage: 'true',
     MarketMaking: 1,
@@ -30,6 +32,35 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 })
 
 methods.getList()
+const dialogVisible = ref(true)
+const xx: tableFieldsType[] = [
+  {
+    field: 'a',
+    value: 0,
+    prop: 'a',
+    label: '用户状态',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'b',
+    value: 0,
+    prop: 'b',
+    label: '实名认证状态',
+    component: 'Select',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false
+    }
+  }
+]
 
 const tableColumns: TableColumn[] = [
   {
@@ -296,6 +327,15 @@ const goUrl = (item, url) => {
 }
 </script>
 <template>
+  <el-dialog v-model="dialogVisible" title="新增" width="30%">
+    <Form label-position="right" hide-required-asterisk :schema="xx" />
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogVisible = false"> Confirm </el-button>
+      </span>
+    </template>
+  </el-dialog>
   <ContentWrap>
     <Search
       layout="inline"

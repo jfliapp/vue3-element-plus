@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCashinoutListApi } from '@/api/schdule'
+import { getCashinoutListApi } from '@/api/schedule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'

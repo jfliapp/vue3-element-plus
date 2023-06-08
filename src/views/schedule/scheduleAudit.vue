@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getSchduleEnduserListApi } from '@/api/schdule'
+import { getScheduleEnduserListApi } from '@/api/schedule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
@@ -12,7 +12,7 @@ import { tableDataFieldType, tableFieldsType } from './types'
 // const { t } = useI18n()
 
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
-  getListApi: getSchduleEnduserListApi,
+  getListApi: getScheduleEnduserListApi,
   // delListApi: delTableListApi,
   response: {
     list: 'list',

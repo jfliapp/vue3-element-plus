@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { propTypes } from '@/utils/propTypes'
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, defineEmits } from 'vue'
 import { ElButton } from 'element-plus'
 
 defineProps({
@@ -8,17 +8,24 @@ defineProps({
   showLine: propTypes.bool.def(true),
   showAction: propTypes.bool.def(false)
 })
+const emit = defineEmits(['action'])
 
 const flag = ref<boolean>(true)
+const action = () => {
+  flag.value = !flag.value
+  emit('action', flag.value)
+}
 </script>
 <template>
   <div class="divider">
     <div class="title" v-if="title !== ''">{{ title }}</div>
     <div v-if="showLine" class="line"></div>
-    <div v-if="showAction" @click="$emit('action', flag)">
-      <el-button type="primary" @click="flag = !flag"
-        ><Icon icon="tabler:edit" /> {{ flag ? '编辑' : '完成' }}</el-button
-      >
+    <div v-if="showAction" @click="action">
+      <slot :flag="flag">
+        <el-button type="primary">
+          <Icon icon="tabler:edit" /> {{ flag ? '编辑' : '完成' }}
+        </el-button>
+      </slot>
     </div>
   </div>
 </template>

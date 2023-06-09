@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import OwnDivide from './OwnDivide.vue'
+import OwnDivider from '@/components/OwnDivider/index.vue'
 import { Table } from '@/components/Table-new'
 import { propTypes } from '@/utils/propTypes'
 import { defineProps, PropType } from 'vue'
@@ -18,7 +18,7 @@ defineProps({
 </script>
 <template>
   <div>
-    <own-divide :title="title" :show-line="showLine" />
+    <own-divider :title="title" :show-line="showLine" />
     <Table :columns="columns" :data="data" />
   </div>
 </template>

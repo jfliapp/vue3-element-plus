@@ -29,6 +29,7 @@ const props = defineProps({
     .def('center'),
   showSearch: propTypes.bool.def(true),
   showExportExcel: propTypes.bool.def(false),
+  showAdd: propTypes.bool.def(false),
   showReset: propTypes.bool.def(true),
   // 是否显示伸缩
   expand: propTypes.bool.def(false),
@@ -45,7 +46,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['search', 'exportExcel', 'reset'])
+const emit = defineEmits(['search', 'reset', 'exportExcel', 'addHn'])
 
 const visible = ref(true)
 
@@ -106,6 +107,9 @@ const search = async () => {
 const exportExcel = async () => {
   emit('exportExcel')
 }
+const addHn = async () => {
+  emit('addHn')
+}
 
 const reset = async () => {
   unref(elFormRef)?.resetFields()
@@ -143,13 +147,17 @@ const setVisible = () => {
           <Icon icon="ep:search" class="mr-5px" />
           {{ t('common.query') }}
         </ElButton>
-        <ElButton v-if="showExportExcel" @click="exportExcel">
-          <Icon icon="ep:export-right" class="mr-5px" />
-          {{ t('导出') }}
-        </ElButton>
         <ElButton v-if="showReset" @click="reset">
           <Icon icon="ep:refresh-right" class="mr-5px" />
           {{ t('common.reset') }}
+        </ElButton>
+        <ElButton v-if="showExportExcel" @click="exportExcel">
+          <Icon icon="tabler:file-export" class="mr-5px" />
+          {{ t('导出') }}
+        </ElButton>
+        <ElButton v-if="showAdd" @click="addHn">
+          <Icon icon="fluent-mdl2:add-to" class="mr-5px" />
+          {{ t('新增') }}
         </ElButton>
         <ElButton v-if="expand" text @click="setVisible">
           {{ t(visible ? 'common.shrink' : 'common.expand') }}

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { Form } from '@/components/Form-new'
-import OwnDivide from './components/OwnDivide.vue'
+import OwnDivider from '@/components/OwnDivider/index.vue'
 import DetailTable from './components/DetailTable.vue'
 import { reactive, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElRow, ElCol, ElImage } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { getUserDetailApi } from '@/api/accountManagement'
@@ -19,6 +20,9 @@ import {
   tableColumns4,
   tableColumns5
 } from './const'
+
+const { query } = useRoute()
+
 // cloneDeep 是防止别的地方用到数据同步过去
 const basicParams = reactive(cloneDeep(params1))
 const statusParams = reactive(cloneDeep(params2))
@@ -29,6 +33,7 @@ const { register: basicRegister, methods: basicMethods } = useForm()
 const { register: statusRegister, methods: statusMethods } = useForm()
 const { register: authRegister, methods: authMethods } = useForm()
 const { register: pswRegister, methods: pswMethods } = useForm()
+console.log(basicMethods, statusMethods, authMethods, pswMethods)
 
 const basicAction = async (flag) => {
   basicParams.forEach((item) => {
@@ -77,7 +82,7 @@ const data4 = reactive([])
 const data5 = reactive([])
 
 onMounted(async () => {
-  let res = await getUserDetailApi()
+  let res = await getUserDetailApi({ eu: Number(query.id) })
   console.log(res)
 })
 </script>
@@ -87,7 +92,7 @@ onMounted(async () => {
       <el-row :gutter="20">
         <el-col :span="8">
           <div style="background: var(--detail-user-bg)">
-            <own-divide title="基本信息" :show-action="true" @action="basicAction" />
+            <own-divider title="基本信息" :show-action="true" @action="basicAction" />
             <Form
               :is-custom="false"
               label-position="right"
@@ -101,7 +106,7 @@ onMounted(async () => {
           <el-row>
             <el-col>
               <div style="background: var(--detail-user-bg)">
-                <own-divide title="状态设置" :show-action="true" @action="statusAction" />
+                <own-divider title="状态设置" :show-action="true" @action="statusAction" />
                 <Form
                   :is-custom="false"
                   label-position="right"
@@ -115,7 +120,7 @@ onMounted(async () => {
           <el-row>
             <el-col>
               <div style="background: var(--detail-user-bg)">
-                <own-divide title="权限设置" :show-action="true" @action="authAction" />
+                <own-divider title="权限设置" :show-action="true" @action="authAction" />
                 <Form
                   :is-custom="false"
                   label-position="right"
@@ -130,7 +135,7 @@ onMounted(async () => {
           <el-row>
             <el-col>
               <div style="background: var(--detail-user-bg)">
-                <own-divide title="密码设置" :show-action="true" @action="pswAction" />
+                <own-divider title="密码设置" :show-action="true" @action="pswAction" />
                 <Form
                   :is-custom="false"
                   label-position="right"
@@ -144,7 +149,7 @@ onMounted(async () => {
           <el-row>
             <el-col>
               <div style="background: var(--detail-user-bg)">
-                <own-divide title="文件" />
+                <own-divider title="文件" />
                 <div class="flex justify-around">
                   <div class="flex flex-col items-center">
                     <el-image

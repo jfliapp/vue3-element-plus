@@ -102,5 +102,65 @@ export const devRoutes: AppRouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/moneyManagement',
+    component: Layout,
+    redirect: '/moneyManagement/platformAsset',
+    name: 'MoneyManagement',
+    meta: {
+      title: '资产管理',
+      icon: 'carbon:skill-level-advanced'
+    },
+    children: [
+      {
+        path: 'platformAsset',
+        name: 'PlatformAsset',
+        component: () => import('@/views/MoneyManagement/PlatformAsset.vue'),
+        meta: {
+          title: '平台资产'
+        }
+      },
+      {
+        path: 'walletAsset',
+        name: 'WalletAsset',
+        component: () => import('@/views/MoneyManagement/WalletAsset.vue'),
+        meta: {
+          title: '钱包资产'
+        }
+      },
+      {
+        path: 'moneyList',
+        name: 'MoneyList',
+        component: () => import('@/views/MoneyManagement/MoneyList.vue'),
+        meta: {
+          title: '资金列表'
+        }
+      },
+      {
+        path: 'redBlueFill',
+        name: 'RedBlueFill',
+        component: () => import('@/views/MoneyManagement/RedBlueFill.vue'),
+        meta: {
+          title: '红冲蓝补'
+        }
+      },
+      {
+        path: 'cashRecord',
+        name: 'CashRecord',
+        component: () => import('@/views/MoneyManagement/CashRecord.vue'),
+        meta: {
+          title: '出入金记录'
+        }
+      },
+      {
+        path: 'moneyFlow',
+        name: 'MoneyFlow',
+        component: () => import('@/views/MoneyManagement/MoneyFlow.vue'),
+        meta: {
+          title: '资金流水'
+        }
+      }
+    ]
   }
 ]

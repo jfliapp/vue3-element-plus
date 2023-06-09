@@ -4,6 +4,7 @@ import { Form } from '@/components/Form-new'
 import OwnDivide from './components/OwnDivide.vue'
 import DetailTable from './components/DetailTable.vue'
 import { reactive, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElRow, ElCol, ElImage } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { getUserDetailApi } from '@/api/accountManagement'
@@ -19,6 +20,9 @@ import {
   tableColumns4,
   tableColumns5
 } from './const'
+
+const { query } = useRoute()
+
 // cloneDeep 是防止别的地方用到数据同步过去
 const basicParams = reactive(cloneDeep(params1))
 const statusParams = reactive(cloneDeep(params2))
@@ -77,7 +81,7 @@ const data4 = reactive([])
 const data5 = reactive([])
 
 onMounted(async () => {
-  let res = await getUserDetailApi()
+  let res = await getUserDetailApi({ eu: Number(query.id) })
   console.log(res)
 })
 </script>

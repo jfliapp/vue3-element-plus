@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { getScheduleEnduserListApi } from '@/api/schedule'
+import { signupApi } from '@/api/accountManagement'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
 import { Form } from '@/components/Form-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
+import { useForm } from '@/hooks/web/useForm'
 import { tableDataFieldType, tableFieldsType } from './types'
 import { ElDialog, ElPopover, ElScrollbar, ElButton } from 'element-plus'
 import { Icon } from '@/components/Icon'
@@ -16,7 +18,7 @@ import { ref } from 'vue'
 
 const { t } = useI18n()
 const { push } = useRouter()
-
+const { register: registryForm, methods: methodsForm } = useForm({})
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
   getListApi: getScheduleEnduserListApi,
   defaultParams: {
@@ -32,13 +34,35 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 })
 
 methods.getList()
-const dialogVisible = ref(true)
-const xx: tableFieldsType[] = [
+const dialogVisible = ref(false)
+const addUserInfo: tableFieldsType[] = [
   {
-    field: 'a',
-    value: 0,
-    prop: 'a',
-    label: '用户状态',
+    field: 'x',
+    label: '邀请码',
+    colProps: {
+      span: 24
+    },
+    component: 'Input',
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'x',
+    label: '国家',
+    component: 'Select',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false,
+      options: [{ value: '中国', label: 'chain' }]
+    }
+  },
+
+  {
+    field: 'x',
+    label: '手机号',
     component: 'Input',
     colProps: {
       span: 24
@@ -48,15 +72,37 @@ const xx: tableFieldsType[] = [
     }
   },
   {
-    field: 'b',
-    value: 0,
-    prop: 'b',
-    label: '实名认证状态',
-    component: 'Select',
+    field: 'x',
+    label: '邮箱',
+    component: 'Input',
     colProps: {
       span: 24
     },
     componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'x',
+    label: '登录密码',
+    colProps: {
+      span: 24
+    },
+    component: 'Input',
+    componentProps: {
+      type: 'password',
+      clearable: false
+    }
+  },
+  {
+    field: 'x',
+    label: '确认密码',
+    colProps: {
+      span: 24
+    },
+    component: 'Input',
+    componentProps: {
+      type: 'password',
       clearable: false
     }
   }
@@ -325,23 +371,39 @@ const tradersList = [
 const goUrl = (item, url) => {
   push(`${url}?id=${item.id}`)
 }
+const addUserInfoHn = async () => {
+  let item = await methodsForm.getFormData()
+  console.log(item, 'item=======item')
+  let res = await signupApi(item)
+  console.log(res, 'res==========res')
+  dialogVisible.value = false
+}
+const addHn = () => {
+  dialogVisible.value = true
+}
 </script>
 <template>
   <el-dialog v-model="dialogVisible" title="新增" width="30%">
-    <Form label-position="right" hide-required-asterisk :schema="xx" />
+    <Form
+      label-position="right"
+      hide-required-asterisk
+      :schema="addUserInfo"
+      @register="registryForm"
+    />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"> Confirm </el-button>
+        <el-button type="primary" @click="addUserInfoHn"> Confirm </el-button>
       </span>
     </template>
   </el-dialog>
   <ContentWrap>
     <Search
       layout="inline"
-      :showReset="false"
       :schema="searchParams"
+      :show-add="true"
       @search="methods.setSearchParams"
+      @add-hn="addHn"
     />
 
     <Table

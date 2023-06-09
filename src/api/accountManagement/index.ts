@@ -16,10 +16,18 @@ export const getBizListApi = (data: any) => {
     data
   })
 }
-// 用户详情
-export const getUserDetailApi = () => {
+// 用户新增
+export const signupApi = (data: any) => {
   return request.post({
-    url: '/admin/userdetail'
+    url: '/admin/signup',
+    data
+  })
+}
+// 用户详情
+export const getUserDetailApi = (data: { eu: number }) => {
+  return request.post({
+    url: '/admin/userdetail',
+    data
   })
 }
 

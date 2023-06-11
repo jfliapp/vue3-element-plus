@@ -12,7 +12,7 @@ import { ElDialog, ElPopover, ElScrollbar, ElButton } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 
 // import { reactive } from 'vue'
 
@@ -368,7 +368,14 @@ const tradersList = [
   { name: '币币成交单', url: '/accountManagement/moneyFlow' },
   { name: '币币挂单历史', url: '/accountManagement/moneyFlow' }
 ]
+
+const popDisabled = ref(false)
+onActivated(() => {
+  // ElPopover bug 路由跳转了 无法自动隐藏这个ElPopover组件
+  popDisabled.value = false
+})
 const goUrl = (item, url) => {
+  popDisabled.value = true
   push(`${url}?id=${item.id}`)
 }
 const addUserInfoHn = async () => {
@@ -383,7 +390,7 @@ const addHn = () => {
 }
 </script>
 <template>
-  <el-dialog v-model="dialogVisible" title="新增" width="30%">
+  <ElDialog v-model="dialogVisible" title="新增" width="30%">
     <Form
       label-position="right"
       hide-required-asterisk
@@ -392,11 +399,11 @@ const addHn = () => {
     />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addUserInfoHn"> Confirm </el-button>
+        <ElButton @click="dialogVisible = false">Cancel</ElButton>
+        <ElButton type="primary" @click="addUserInfoHn"> Confirm </ElButton>
       </span>
     </template>
-  </el-dialog>
+  </ElDialog>
   <ContentWrap>
     <Search
       layout="inline"
@@ -419,7 +426,13 @@ const addHn = () => {
     >
       <template #TraderId="scope">
         <div>
-          <ElPopover effect="light" trigger="click" placement="right" width="auto">
+          <ElPopover
+            effect="light"
+            trigger="click"
+            :disabled="popDisabled"
+            placement="right"
+            width="auto"
+          >
             <template #default>
               <ElScrollbar always :height="240">
                 <div class="flex flex-col">

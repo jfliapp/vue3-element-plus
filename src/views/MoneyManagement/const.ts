@@ -419,3 +419,11 @@ export const tableColumns5: TableColumn[] = [
   { field: 'x', label: '对手方账户ID' }
 ]
 // -------------------- end --- 用户详情--------------------
+
+export const moneyColumns3: TableColumn[] = [
+  { field: 'name', label: '角色' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'WithDraw', label: '入金' },
+  { field: 'Deposit', label: '出金' },
+  { field: 'Balance', label: '余额' }
+]

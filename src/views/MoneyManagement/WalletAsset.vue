@@ -383,7 +383,7 @@ const addHn = () => {
 }
 </script>
 <template>
-  <el-dialog v-model="dialogVisible" title="新增" width="30%">
+  <ElDialog v-model="dialogVisible" title="新增" width="30%">
     <Form
       label-position="right"
       hide-required-asterisk
@@ -392,11 +392,11 @@ const addHn = () => {
     />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addUserInfoHn"> Confirm </el-button>
+        <ElButton @click="dialogVisible = false">Cancel</ElButton>
+        <ElButton type="primary" @click="addUserInfoHn"> Confirm </ElButton>
       </span>
     </template>
-  </el-dialog>
+  </ElDialog>
   <ContentWrap>
     <Search
       layout="inline"

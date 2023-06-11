@@ -7,6 +7,7 @@ import { ref, defineProps, defineEmits, PropType } from 'vue'
 defineProps({
   title: propTypes.string.def('标题'),
   showLine: propTypes.bool.def(false),
+  showAction: propTypes.bool.def(true),
   columns: {
     type: Array as PropType<TableColumn[]>,
     default: () => []
@@ -14,6 +15,9 @@ defineProps({
   data: {
     type: Array as PropType<Recordable[]>,
     default: () => []
+  },
+  spanMethod: {
+    type: Function
   }
 })
 const emits = defineEmits(['action'])
@@ -26,14 +30,14 @@ const action = (item) => {
 </script>
 <template>
   <div>
-    <own-divider :title="title" :show-action="true" @action="action">
+    <OwnDivider :title="title" :show-action="showAction" :show-line="showLine" @action="action">
       <template #default="{ flag }">
         <ElButton type="primary">{{ flag ? '收起' : '展开' }}</ElButton>
       </template>
-    </own-divider>
+    </OwnDivider>
     <Transition>
       <div v-if="show">
-        <Table :columns="columns" :data="data" />
+        <Table :span-method="spanMethod" :columns="columns" :data="data" />
       </div>
     </Transition>
   </div>

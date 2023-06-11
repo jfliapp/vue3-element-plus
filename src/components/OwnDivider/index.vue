@@ -17,14 +17,14 @@ const action = () => {
 }
 </script>
 <template>
-  <div class="divider">
+  <div class="divider flex justify-between">
     <div class="title" v-if="title !== ''">{{ title }}</div>
     <div v-if="showLine" class="line"></div>
     <div v-if="showAction" @click="action">
       <slot :flag="flag">
-        <el-button type="primary">
+        <ElButton type="primary">
           <Icon icon="tabler:edit" /> {{ flag ? '编辑' : '完成' }}
-        </el-button>
+        </ElButton>
       </slot>
     </div>
   </div>

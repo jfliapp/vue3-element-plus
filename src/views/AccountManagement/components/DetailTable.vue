@@ -18,7 +18,7 @@ defineProps({
 </script>
 <template>
   <div>
-    <own-divider :title="title" :show-line="showLine" />
+    <OwnDivider :title="title" :show-line="showLine" />
     <Table :columns="columns" :data="data" />
   </div>
 </template>

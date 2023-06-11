@@ -419,11 +419,71 @@ export const tableColumns5: TableColumn[] = [
   { field: 'x', label: '对手方账户ID' }
 ]
 // -------------------- end --- 用户详情--------------------
+// 资金管理
 
-export const moneyColumns3: TableColumn[] = [
-  { field: 'name', label: '角色' },
+export const moneyColumns: TableColumn[] = [
   { field: 'CurCode', label: '币种' },
   { field: 'WithDraw', label: '入金' },
   { field: 'Deposit', label: '出金' },
   { field: 'Balance', label: '余额' }
+]
+
+export const walletColumns: TableColumn[] = [
+  { field: 'role', label: '角色' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'WithDraw', label: '入金' },
+  { field: 'Deposit', label: '出金' },
+  { field: 'Balance', label: '余额' }
+]
+
+export const CFDColumns: TableColumn[] = [
+  { field: 'Role', label: '角色' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'CashToMake', label: '钱包转合约' },
+  { field: 'MakeToCash', label: '合约转钱包' },
+  { field: 'Pnl', label: '平仓盈亏' },
+  { field: 'Opentax', label: '开仓手续费' },
+  { field: 'Closetax', label: '平仓手续费' },
+  { field: 'ROtax', label: '展期费' },
+  { field: 'Spread', label: '点差' },
+  { field: 'Balance', label: '余额' }
+]
+
+export const OptionsColumns: TableColumn[] = [
+  { field: 'Role', label: '角色' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'CashToMake', label: '钱包转期权' },
+  { field: 'MakeToCash', label: '期权转钱包' },
+  { field: 'Pnl', label: '期权盈亏' },
+  { field: 'Opentax', label: '期权手续费' },
+  { field: 'Balance', label: '余额' }
+]
+
+export const BounsColumns: TableColumn[] = [
+  { field: 'Role', label: '角色' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'CashToMake', label: '赠金' },
+  { field: 'MakeToCash', label: '利息' },
+  { field: 'Pnl', label: '佣金' },
+  { field: 'Opentax', label: '推荐奖金' },
+  { field: 'Closetax', label: '退回' },
+  { field: 'ROtax', label: '撮合认购奖励' },
+  { field: 'Spread', label: '撮合推荐奖励' },
+  { field: 'Balance', label: '余额' }
+]
+
+export const CentralPlatformColumns: TableColumn[] = [
+  { field: 'CurCode', label: '币种' },
+  { field: 'Deposit', label: '充币' },
+  { field: 'WithDraw', label: '提币' },
+  { field: 'WithDrawFee', label: '提币手续费' },
+  { field: 'Collect', label: '已归集' },
+  { field: 'CollectFee', label: '归集手续费' },
+  { field: 'UnCollect', label: '未归集' },
+  { field: 'Balance', label: '余额' }
+]
+
+export const CentralWalletColumns: TableColumn[] = [
+  { field: 'role', label: '角色' },
+  ...CentralPlatformColumns
 ]

@@ -2,75 +2,85 @@
 import { ContentWrap } from '@/components/ContentWrap'
 import DetailTable from './components/DetailTable.vue'
 import { onMounted, reactive, ref } from 'vue'
-// import { useRoute } from 'vue-router'
 import { ElRow, ElCol, ElTabs, ElTabPane } from 'element-plus'
-import { tableColumns1, tableColumns2, tableColumns3, moneyColumns3 } from './const'
-// import { getUserDetailApi } from '@/api/accountManagement'
-onMounted(async () => {
-  // let res = await getUserDetailApi({ eu: Number(query.id) })
-  // console.log(res)
-})
+import {
+  moneyColumns,
+  walletColumns,
+  CFDColumns,
+  OptionsColumns,
+  BounsColumns,
+  CentralPlatformColumns,
+  CentralWalletColumns
+} from './const'
+import { getPlatformBookAssertApi, getCentralWalletAssertApi } from '@/api/moneyManagement'
+
 const activeName = ref('platformTab')
+let platformData = reactive({
+  wallet_summary: [],
+  wallet_central: [],
+  wallet: [],
+  cfd: [],
+  option: [],
+  bouns: []
+})
+let centralData = reactive({
+  wallet_summary: [],
+  central_summary: [],
+  platform_summary: []
+})
 
-const handleClick = (tab) => {
-  console.log(tab)
+onMounted(async () => {
+  const { data } = await getPlatformBookAssertApi()
+  platFormSortData(data)
+})
+
+function platFormSortData(data) {
+  platformData.wallet_summary = data.wallet_summary
+  platformData.wallet_central = data.wallet_central
+  const walletData = data.wallet.reduce((prev, item) => {
+    if (item.data.length > 0) {
+      item.data.forEach((li, i) => {
+        let t = { ...li, len: i === 0 && item.data.length }
+        t.role = item.role
+        prev.push(t)
+      })
+    }
+    return prev
+  }, [])
+  platformData.wallet = walletData
+  platformData.cfd = data.cfd
 }
-const data1 = reactive([])
-const data2 = reactive([])
-const data3 = reactive([])
+function centralSortData(data) {
+  centralData.platform_summary = data.platform_summary
+  centralData.central_summary = data.central_summary
+  const walletData = data.wallet_summary.reduce((prev, item) => {
+    if (item.data.length > 0) {
+      item.data.forEach((li, i) => {
+        let t = { ...li, len: i === 0 && item.data.length }
+        t.role = item.role
+        prev.push(t)
+      })
+    }
+    return prev
+  }, [])
+  centralData.wallet_summary = walletData
+}
 
-const moneyData = reactive([
-  {
-    name: '运营中心',
-    CurCode: 'TWD',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
-  },
-  {
-    CurCode: 'USDT',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
-  },
-  {
-    CurCode: 'USD',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
-  },
-  {
-    CurCode: 'TWD',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
-  },
-  {
-    CurCode: 'USDT',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
-  },
-  {
-    CurCode: 'USD',
-    Deposit: 0,
-    WithDraw: 0,
-    Balance: 0
+const tabHn = async (name) => {
+  if (name === 'platformTab') {
+    const { data } = await getPlatformBookAssertApi()
+    platFormSortData(data)
+  } else {
+    const { data } = await getCentralWalletAssertApi()
+    centralSortData(data)
   }
-])
+}
 
-const xx1 = (flag) => {
-  console.log('xx1', flag)
-}
-const xx2 = (flag) => {
-  console.log('xx2', flag)
-}
-const moneySpanMethod = ({ rowIndex, columnIndex }) => {
-  const len = moneyData.length
+const moneySpanMethod = ({ row, columnIndex }) => {
   if (columnIndex === 0) {
-    if (rowIndex === 0) {
+    if (row.len) {
       return {
-        rowspan: len,
+        rowspan: row.len,
         colspan: 1
       }
     } else {
@@ -84,25 +94,51 @@ const moneySpanMethod = ({ rowIndex, columnIndex }) => {
 </script>
 <template>
   <ContentWrap>
-    <ElTabs v-model="activeName" @tab-click="handleClick">
+    <ElTabs v-model="activeName" @tab-change="tabHn">
       <ElTabPane label="平台账面资金" name="platformTab">
         <ElRow :gutter="20">
           <ElCol :span="12">
-            <DetailTable title="基本信息" @active="xx1" :columns="tableColumns1" :data="data1" />
+            <DetailTable
+              title="平台总资金"
+              :columns="moneyColumns"
+              :data="platformData.wallet_summary"
+            />
           </ElCol>
           <ElCol :span="12">
-            <DetailTable title="基本信息" @active="xx2" :columns="tableColumns2" :data="data2" />
+            <DetailTable
+              title="中央账户"
+              :columns="moneyColumns"
+              :data="platformData.wallet_central"
+            />
           </ElCol>
         </ElRow>
         <DetailTable
           title="钱包资产"
-          :columns="moneyColumns3"
           :span-method="moneySpanMethod"
-          :data="moneyData"
+          :columns="walletColumns"
+          :data="platformData.wallet"
         />
+        <DetailTable title="CFD账户" :columns="CFDColumns" :data="platformData.cfd" />
+        <DetailTable title="期权账户" :columns="OptionsColumns" :data="platformData.option" />
+        <DetailTable title="奖励账户" :columns="BounsColumns" :data="platformData.bouns" />
       </ElTabPane>
       <ElTabPane label="中央钱包资产" name="moneyTab">
-        <DetailTable title="钱包资产" :columns="tableColumns3" :data="data3" />
+        <DetailTable
+          title="平台总资产"
+          :columns="CentralPlatformColumns"
+          :data="centralData.platform_summary"
+        />
+        <DetailTable
+          title="中央账户"
+          :columns="CentralPlatformColumns"
+          :data="centralData.central_summary"
+        />
+        <DetailTable
+          title="钱包账户"
+          :span-method="moneySpanMethod"
+          :columns="CentralWalletColumns"
+          :data="centralData.wallet_summary"
+        />
       </ElTabPane>
     </ElTabs>
   </ContentWrap>

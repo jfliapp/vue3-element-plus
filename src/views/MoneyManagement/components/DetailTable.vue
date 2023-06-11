@@ -4,7 +4,7 @@ import { Table } from '@/components/Table-new'
 import { propTypes } from '@/utils/propTypes'
 import { ElButton } from 'element-plus'
 import { ref, defineProps, defineEmits, PropType } from 'vue'
-defineProps({
+const props = defineProps({
   title: propTypes.string.def('标题'),
   showLine: propTypes.bool.def(false),
   showAction: propTypes.bool.def(true),
@@ -14,17 +14,15 @@ defineProps({
   },
   data: {
     type: Array as PropType<Recordable[]>,
-    default: () => []
+    default: () => {}
   },
-  spanMethod: {
-    type: Function
-  }
+  spanMethod: Function
 })
 const emits = defineEmits(['action'])
 const show = ref(true)
 const action = (item) => {
-  console.log(item)
   show.value = !show.value
+  console.log(props.data, 'detailTable')
   emits('action', item)
 }
 </script>

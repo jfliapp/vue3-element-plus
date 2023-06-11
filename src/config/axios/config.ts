@@ -16,10 +16,12 @@ const config: {
     dev: '/api',
 
     // 打包生产环境接口前缀
-    pro: 'https://58.com/api',
+    // pro: 'https://58.com/api',
+    pro: '/api',
 
     // 打包测试环境接口前缀
-    test: 'https://58.com/api'
+    // test: 'https://58.com/api'
+    test: '/api'
   },
 
   /**

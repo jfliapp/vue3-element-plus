@@ -1,5 +1,8 @@
+import { tableFieldsType } from './types'
+import { Options } from '@/types/Options'
+import { getLabel } from '@/utils/tsxHelper'
 // -------------------- start --- 用户详情--------------------
-const statusOption = [
+const statusOption: Options[] = [
   {
     value: 0,
     label: '正常'
@@ -13,7 +16,7 @@ const statusOption = [
     label: '已拒绝'
   }
 ]
-const authOption = [
+const authOption: Options[] = [
   {
     value: 1,
     label: '开'
@@ -21,6 +24,44 @@ const authOption = [
   {
     value: 0,
     label: '关'
+  }
+]
+// 币种
+const curCodeOptions: Options[] = [
+  {
+    value: '-1',
+    label: '全部'
+  },
+  {
+    value: 'TWD',
+    label: 'TWD'
+  },
+  {
+    value: 'USD',
+    label: 'USD'
+  },
+  {
+    value: 'USDT',
+    label: 'USDT'
+  }
+]
+// 终端列表
+const partnertypeOptions: Options[] = [
+  {
+    value: '-1',
+    label: '全部'
+  },
+  {
+    value: 'TWD',
+    label: 'TWD'
+  },
+  {
+    value: 'USD',
+    label: 'USD'
+  },
+  {
+    value: 'USDT',
+    label: 'USDT'
   }
 ]
 
@@ -428,7 +469,7 @@ export const moneyColumns: TableColumn[] = [
   { field: 'Balance', label: '余额' }
 ]
 
-export const walletColumns: TableColumn[] = [
+export const platformWalletColumns: TableColumn[] = [
   { field: 'role', label: '角色' },
   { field: 'CurCode', label: '币种' },
   { field: 'WithDraw', label: '入金' },
@@ -449,7 +490,7 @@ export const CFDColumns: TableColumn[] = [
   { field: 'Balance', label: '余额' }
 ]
 
-export const OptionsColumns: TableColumn[] = [
+export const optionsColumns: TableColumn[] = [
   { field: 'Role', label: '角色' },
   { field: 'CurCode', label: '币种' },
   { field: 'CashToMake', label: '钱包转期权' },
@@ -459,7 +500,7 @@ export const OptionsColumns: TableColumn[] = [
   { field: 'Balance', label: '余额' }
 ]
 
-export const BounsColumns: TableColumn[] = [
+export const bounsColumns: TableColumn[] = [
   { field: 'Role', label: '角色' },
   { field: 'CurCode', label: '币种' },
   { field: 'CashToMake', label: '赠金' },
@@ -472,7 +513,7 @@ export const BounsColumns: TableColumn[] = [
   { field: 'Balance', label: '余额' }
 ]
 
-export const CentralPlatformColumns: TableColumn[] = [
+export const centralPlatformColumns: TableColumn[] = [
   { field: 'CurCode', label: '币种' },
   { field: 'Deposit', label: '充币' },
   { field: 'WithDraw', label: '提币' },
@@ -483,7 +524,269 @@ export const CentralPlatformColumns: TableColumn[] = [
   { field: 'Balance', label: '余额' }
 ]
 
-export const CentralWalletColumns: TableColumn[] = [
+export const centralWalletColumns: TableColumn[] = [
   { field: 'role', label: '角色' },
-  ...CentralPlatformColumns
+  ...centralPlatformColumns
+]
+
+// 钱包资产
+export const walletSearchParams: tableFieldsType[] = [
+  {
+    field: 'partnerterm',
+    value: '',
+    prop: 'partnerterm',
+    label: '所属机构',
+    component: 'Input'
+  },
+  {
+    field: 'selectall',
+    prop: 'selectall',
+    label: '是否包含下级',
+    labelWidth: 0,
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
+          value: 1
+        }
+      ]
+    }
+  },
+  {
+    field: 'CurCode',
+    value: '',
+    prop: 'CurCode',
+    label: '币种',
+    component: 'Select',
+    componentProps: {
+      options: curCodeOptions
+    }
+  },
+  {
+    field: 'term',
+    value: '',
+    prop: 'term',
+    label: '关键字',
+    component: 'Input'
+  }
+]
+
+export const walletColumns: TableColumn[] = [
+  {
+    field: 'Caption',
+    prop: 'Caption',
+    label: '用户ID'
+  },
+  {
+    prop: 'BindTel',
+    field: 'BindTel',
+    label: '用户名称'
+  },
+  {
+    prop: 'BindTel',
+    field: 'BindTel',
+    label: '手机号'
+  },
+  {
+    prop: '__subId', // 自己定义的字段
+    field: '__subId',
+    label: '子账号'
+  },
+  {
+    prop: 'CurCode',
+    field: 'CurCode',
+    label: '币种',
+    formatter: function (row) {
+      return getLabel(curCodeOptions, row.CurCode)
+    }
+  },
+  {
+    prop: 'Balance',
+    field: 'Balance',
+    label: '余额'
+  },
+  {
+    prop: 'DepositTotalAmt',
+    field: 'DepositTotalAmt',
+    label: '可用'
+  },
+  {
+    prop: 'Frozen',
+    field: 'Frozen',
+    label: '冻结'
+  },
+  {
+    prop: 'action',
+    field: 'action',
+    label: '提币权限'
+  }
+]
+
+export const moneyListSearchParams: tableFieldsType[] = [
+  {
+    field: 'partnertype',
+    value: '',
+    prop: 'partnertype',
+    label: '用户类型',
+    component: 'Select',
+    componentProps: {
+      options: partnertypeOptions
+    }
+  },
+  {
+    field: 'partnerterm',
+    value: '',
+    prop: 'partnerterm',
+    label: '所属机构',
+    component: 'Input'
+  },
+  {
+    field: 'selectall',
+    prop: 'selectall',
+    label: '是否包含下级',
+    labelWidth: 0,
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
+          value: 1
+        }
+      ]
+    }
+  },
+  {
+    field: 'userterm',
+    value: '',
+    prop: 'userterm',
+    label: '关键字',
+    component: 'Input'
+  }
+]
+
+export const moneyListColumns: TableColumn[] = [
+  {
+    field: 'OwnerCaption',
+    prop: 'OwnerCaption',
+    label: 'ID'
+  },
+  {
+    prop: 'TrueName',
+    field: 'TrueName',
+    label: '名称'
+  },
+  {
+    prop: 'OwnerCode',
+    field: 'OwnerCode',
+    label: '所属机构'
+  },
+  {
+    prop: 'ConvertBalanceTotal',
+    field: 'ConvertBalanceTotal',
+    label: '总折合(USDT)'
+  },
+  {
+    prop: 'AcctType',
+    field: 'AcctType',
+    label: '账号类型'
+  },
+  {
+    prop: 'id',
+    field: 'id',
+    label: '账号'
+  },
+  {
+    prop: 'BaseCurCode',
+    field: 'BaseCurCode',
+    label: '币种',
+    formatter: function (row) {
+      return getLabel(curCodeOptions, row.CurCode)
+    }
+  },
+  {
+    prop: 'Balance',
+    field: 'Balance',
+    label: '余额'
+  },
+  {
+    prop: 'Available',
+    field: 'Available',
+    label: '可用'
+  },
+  {
+    prop: 'Frozen',
+    field: 'Frozen',
+    label: '冻结'
+  }
+]
+
+// 红冲蓝补
+export const redBlueForm: TableColumn[] = [
+  {
+    field: 'id',
+    value: '',
+    prop: 'id',
+    label: '钱包账户',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      disabled: true
+    }
+  },
+  {
+    field: 'Caption',
+    value: '',
+    prop: 'Caption',
+    label: '用户id/名称',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    isDisable: true,
+    componentProps: {
+      disabled: true
+    }
+  }
+]
+
+export const redBleListColumns: TableColumn[] = [
+  {
+    prop: 'id',
+    field: 'id',
+    label: '账号'
+  },
+  {
+    prop: 'BaseCurCode',
+    field: 'BaseCurCode',
+    label: '币种',
+    formatter: function (row) {
+      return getLabel(curCodeOptions, row.CurCode)
+    }
+  },
+  {
+    prop: 'Balance',
+    field: 'Balance',
+    label: '余额'
+  },
+  {
+    prop: 'Available',
+    field: 'Available',
+    label: '可用'
+  },
+  {
+    prop: 'Frozen',
+    field: 'Frozen',
+    label: '冻结'
+  }
 ]

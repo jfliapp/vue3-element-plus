@@ -13,6 +13,7 @@ interface TableResponse<T = any> {
   list: T[]
   pageNumber: number
   pageSize: number
+  Total: Object
 }
 
 interface UseTableConfig<T = any> {
@@ -22,6 +23,8 @@ interface UseTableConfig<T = any> {
   response: {
     list: string
     total?: string
+    otherList?: string
+    formatter?: Function
     inJson?: string // 'a|A|c'
   }
   // 默认传递的参数
@@ -34,6 +37,7 @@ interface TableObject<T = any> {
   currentPage: number
   total: number
   tableList: T[]
+  otherTableList: any[]
   params: any
   loading: boolean
   currentRow: Nullable<T>
@@ -49,6 +53,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     total: 10,
     // 表格数据
     tableList: [],
+    otherTableList: [], // 返回的其他的外面需要数据
     // AxiosConfig 配置
     params: {
       ...(config?.defaultParams || {})
@@ -142,6 +147,10 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
             return temp
           })
         }
+        if (config?.response?.formatter) {
+          list = config?.response?.formatter(list, res.data.Total)
+        }
+        tableObject.otherTableList = get(res.data || {}, config?.response?.otherList as string)
         tableObject.tableList = list
         tableObject.total = get(res.data || {}, config?.response?.total as string) || 0
       }

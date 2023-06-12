@@ -30,6 +30,7 @@ const props = defineProps({
   showSearch: propTypes.bool.def(true),
   showExportExcel: propTypes.bool.def(false),
   showAdd: propTypes.bool.def(false),
+  showSum: propTypes.bool.def(false),
   showReset: propTypes.bool.def(true),
   // 是否显示伸缩
   expand: propTypes.bool.def(false),
@@ -46,7 +47,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['search', 'reset', 'exportExcel', 'addHn'])
+const emit = defineEmits(['search', 'reset', 'exportExcel', 'addHn', 'sumHn'])
 
 const visible = ref(true)
 
@@ -104,11 +105,8 @@ const search = async () => {
   })
 }
 
-const exportExcel = async () => {
-  emit('exportExcel')
-}
-const addHn = async () => {
-  emit('addHn')
+const handle = (item) => {
+  emit(item)
 }
 
 const reset = async () => {
@@ -151,11 +149,15 @@ const setVisible = () => {
           <Icon icon="ep:refresh-right" class="mr-5px" />
           {{ t('common.reset') }}
         </ElButton>
-        <ElButton v-if="showExportExcel" @click="exportExcel">
+        <ElButton v-if="showExportExcel" type="primary" @click="handle('exportExcel')">
           <Icon icon="tabler:file-export" class="mr-5px" />
           {{ t('导出') }}
         </ElButton>
-        <ElButton v-if="showAdd" @click="addHn">
+        <ElButton v-if="showSum" type="primary" @click="handle('sumHn')">
+          <Icon icon="tabler:file-export" class="mr-5px" />
+          {{ t('汇总') }}
+        </ElButton>
+        <ElButton v-if="showAdd" type="primary" @click="handle('addHn')">
           <Icon icon="fluent-mdl2:add-to" class="mr-5px" />
           {{ t('新增') }}
         </ElButton>

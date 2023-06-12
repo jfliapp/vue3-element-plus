@@ -5,12 +5,12 @@ import { onMounted, reactive, ref } from 'vue'
 import { ElRow, ElCol, ElTabs, ElTabPane } from 'element-plus'
 import {
   moneyColumns,
-  walletColumns,
+  platformWalletColumns,
   CFDColumns,
-  OptionsColumns,
-  BounsColumns,
-  CentralPlatformColumns,
-  CentralWalletColumns
+  optionsColumns,
+  bounsColumns,
+  centralPlatformColumns,
+  centralWalletColumns
 } from './const'
 import { getPlatformBookAssertApi, getCentralWalletAssertApi } from '@/api/moneyManagement'
 
@@ -115,28 +115,28 @@ const moneySpanMethod = ({ row, columnIndex }) => {
         <DetailTable
           title="钱包资产"
           :span-method="moneySpanMethod"
-          :columns="walletColumns"
+          :columns="platformWalletColumns"
           :data="platformData.wallet"
         />
         <DetailTable title="CFD账户" :columns="CFDColumns" :data="platformData.cfd" />
-        <DetailTable title="期权账户" :columns="OptionsColumns" :data="platformData.option" />
-        <DetailTable title="奖励账户" :columns="BounsColumns" :data="platformData.bouns" />
+        <DetailTable title="期权账户" :columns="optionsColumns" :data="platformData.option" />
+        <DetailTable title="奖励账户" :columns="bounsColumns" :data="platformData.bouns" />
       </ElTabPane>
       <ElTabPane label="中央钱包资产" name="moneyTab">
         <DetailTable
           title="平台总资产"
-          :columns="CentralPlatformColumns"
+          :columns="centralPlatformColumns"
           :data="centralData.platform_summary"
         />
         <DetailTable
           title="中央账户"
-          :columns="CentralPlatformColumns"
+          :columns="centralPlatformColumns"
           :data="centralData.central_summary"
         />
         <DetailTable
           title="钱包账户"
           :span-method="moneySpanMethod"
-          :columns="CentralWalletColumns"
+          :columns="centralWalletColumns"
           :data="centralData.wallet_summary"
         />
       </ElTabPane>

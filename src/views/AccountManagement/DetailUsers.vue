@@ -33,7 +33,6 @@ const { register: basicRegister, methods: basicMethods } = useForm()
 const { register: statusRegister, methods: statusMethods } = useForm()
 const { register: authRegister, methods: authMethods } = useForm()
 const { register: pswRegister, methods: pswMethods } = useForm()
-console.log(basicMethods, statusMethods, authMethods, pswMethods)
 
 const basicAction = async (flag) => {
   basicParams.forEach((item) => {

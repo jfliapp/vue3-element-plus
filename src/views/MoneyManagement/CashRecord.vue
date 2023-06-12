@@ -1,113 +1,78 @@
 <script setup lang="ts">
-import { getScheduleEnduserListApi } from '@/api/schedule'
-import { signupApi } from '@/api/accountManagement'
+import { getCashinoutListApi } from '@/api/schedule'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Table } from '@/components/Table-new'
-import { Form } from '@/components/Form-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
-import { useForm } from '@/hooks/web/useForm'
-import { tableDataFieldType, tableFieldsType } from '../AccountManagement/types'
-import { ElDialog, ElPopover, ElScrollbar, ElButton } from 'element-plus'
-import { Icon } from '@/components/Icon'
-import { useI18n } from '@/hooks/web/useI18n'
-import { useRouter } from 'vue-router'
+import { tableDataFieldType, tableFieldsType } from './types'
+import { getDate } from '@/utils/date'
+import { getLabel } from '@/utils/tsxHelper'
+import { Options } from '@/types/Options'
+import { exportExcel } from '@/utils/export'
+import { ElDialog, ElButton } from 'element-plus'
+// import { useI18n } from '@/hooks/web/useI18n'
+
 import { ref } from 'vue'
 
-// import { reactive } from 'vue'
+// const { t } = useI18n()
 
-const { t } = useI18n()
-const { push } = useRouter()
-const { register: registryForm, methods: methodsForm } = useForm({})
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
-  getListApi: getScheduleEnduserListApi,
-  defaultParams: {
-    AuthTradeBrokerage: 'true',
-    MarketMaking: 1,
-    partnertype: 1
-  },
+  getListApi: getCashinoutListApi,
   // delListApi: delTableListApi,
   response: {
     list: 'list',
+    otherList: 'statistics',
     total: 'listcount'
   }
 })
 
 methods.getList()
-const dialogVisible = ref(false)
-const addUserInfo: tableFieldsType[] = [
+const CashType: Options[] = [
   {
-    field: 'x',
-    label: '邀请码',
-    colProps: {
-      span: 24
-    },
-    component: 'Input',
-    componentProps: {
-      clearable: false
-    }
+    value: -1,
+    label: '全部'
   },
   {
-    field: 'x',
-    label: '国家',
-    component: 'Select',
-    colProps: {
-      span: 24
-    },
-    componentProps: {
-      clearable: false,
-      options: [{ value: '中国', label: 'chain' }]
-    }
-  },
-
-  {
-    field: 'x',
-    label: '手机号',
-    component: 'Input',
-    colProps: {
-      span: 24
-    },
-    componentProps: {
-      clearable: false
-    }
+    value: 2,
+    label: '入金'
   },
   {
-    field: 'x',
-    label: '邮箱',
-    component: 'Input',
-    colProps: {
-      span: 24
-    },
-    componentProps: {
-      clearable: false
-    }
-  },
-  {
-    field: 'x',
-    label: '登录密码',
-    colProps: {
-      span: 24
-    },
-    component: 'Input',
-    componentProps: {
-      type: 'password',
-      clearable: false
-    }
-  },
-  {
-    field: 'x',
-    label: '确认密码',
-    colProps: {
-      span: 24
-    },
-    component: 'Input',
-    componentProps: {
-      type: 'password',
-      clearable: false
-    }
+    value: 3,
+    label: '出金'
   }
 ]
-
+const sumColumns: TableColumn[] = [
+  {
+    prop: 'CurCode',
+    field: 'CurCode',
+    label: '币种'
+  },
+  {
+    prop: 'InAmt',
+    field: 'InAmt',
+    label: '入金'
+  },
+  {
+    prop: 'OutAmt',
+    field: 'OutAmt',
+    label: '出金'
+  },
+  {
+    prop: 'InFeeTotal',
+    field: 'InFeeTotal',
+    label: '入金手续费'
+  },
+  {
+    prop: 'OutFeeTotal',
+    field: 'OutFeeTotal',
+    label: '出金手续费'
+  },
+  {
+    prop: 'BlockchainFeeTotal',
+    field: 'BlockchainFeeTotal',
+    label: '链上手续费'
+  }
+]
 const tableColumns: TableColumn[] = [
   {
     field: 'index',
@@ -115,18 +80,19 @@ const tableColumns: TableColumn[] = [
     label: '序号'
   },
   {
-    field: 'TraderId',
-    label: '交易商ID'
+    field: 'id',
+    prop: 'id',
+    label: '订单ID'
   },
   {
     prop: 'NickName',
     field: 'NickName',
-    label: '真实姓名'
+    label: 'ID/名称'
   },
   {
     prop: 'Owner',
     field: 'Owner',
-    label: '交易账号'
+    label: '真实姓名'
   },
   {
     prop: 'UplineDirect',
@@ -134,83 +100,97 @@ const tableColumns: TableColumn[] = [
     label: '所属机构'
   },
   {
-    prop: 'OwnerType',
-    field: 'OwnerType',
-    label: '交易品种'
-  },
-  {
-    prop: 'OwnerType',
-    field: 'OwnerType',
-    label: '交易品种'
+    prop: 'CashType',
+    field: 'CashType',
+    label: '类型',
+    formatter: function (row) {
+      return getLabel(CashType, row.CashType)
+    }
   },
   {
     prop: 'PayChannel',
     field: 'PayChannel',
-    label: '交易类型'
+    label: '支付通道'
   },
   {
     prop: 'CurCode',
     field: 'CurCode',
-    label: '委托时间'
+    label: '币种'
   },
   {
     prop: 'Amt',
     field: 'Amt',
-    label: '委托价格'
+    label: '金额'
   },
   {
     prop: 'Status',
     field: 'Status',
-    label: '委托价格'
+    label: '支付币种'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '委托数量'
+    label: '提币地址'
   },
   {
     prop: 'PayChannel',
     field: 'PayChannel',
-    label: '止盈'
+    label: '支付方式'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '止损'
+    label: '对公账户开户行'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '最新价格'
+    label: '用户银行开户行'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '有效时间'
+    label: '账号'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '是否自动递延'
+    label: '姓名'
   },
   {
     prop: 'createdat',
     field: 'createdat',
-    label: '是否自动追加保证金'
+    label: '支行'
   },
   {
-    field: 'action',
-    width: '260px',
-    label: t('tableDemo.action'),
-    form: {
-      show: false
-    },
-    detail: {
-      show: false
-    }
+    prop: 'createdat',
+    field: 'createdat',
+    label: '凭证'
+  },
+  {
+    prop: 'Status',
+    field: 'Status',
+    label: '状态'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '申请时间'
+  },
+  {
+    prop: 'Desc',
+    field: 'Desc',
+    label: '备注'
   }
 ]
 const searchParams: tableFieldsType[] = [
+  {
+    field: 'term',
+    value: '',
+    prop: 'term',
+    label: '用户类型',
+    component: 'Select'
+  },
   {
     field: 'partnerterm',
     value: '',
@@ -221,9 +201,9 @@ const searchParams: tableFieldsType[] = [
   {
     field: 'selectall',
     prop: 'selectall',
-    label: '包含下级',
+    label: '是否包含下级',
+    labelWidth: 0,
     component: 'Select',
-    value: [],
     componentProps: {
       options: [
         {
@@ -241,104 +221,33 @@ const searchParams: tableFieldsType[] = [
     field: 'euterm',
     value: '',
     prop: 'euterm',
-    label: '关键字',
+    label: '机构ID',
     labelWidth: 0,
     component: 'Input'
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
-    label: '用户状态',
+    field: 'term1',
+    value: '',
+    prop: 'term',
+    label: '出入金通道',
+    component: 'Select'
+  },
+  {
+    field: 'cashtype',
+    value: '',
+    prop: 'cashtype',
+    label: '出入金类型',
     component: 'Select',
-    value: [],
     componentProps: {
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
+      options: CashType
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
-    label: '在线状态',
-    component: 'Select',
-    value: [],
-    componentProps: {
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
-    }
-  },
-  {
-    field: 'selectall',
-    prop: 'selectall',
-    label: '实名认证状态',
-    component: 'Select',
-    value: [],
-    componentProps: {
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
-    }
-  },
-  {
-    field: 'selectall',
-    prop: 'selectall',
-    label: '是否对冲',
-    component: 'Select',
-    value: [],
-    componentProps: {
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
-    }
-  },
-  {
-    field: 'selectall',
-    prop: 'selectall',
-    label: '国家',
-    component: 'Select',
-    value: [],
-    componentProps: {
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
-    }
+    field: 'term',
+    value: '',
+    prop: 'term',
+    label: '币种',
+    component: 'Input'
   },
   {
     field: 'date',
@@ -352,58 +261,42 @@ const searchParams: tableFieldsType[] = [
     }
   }
 ]
-const tradersList = [
-  { name: '用户详情', url: '/accountManagement/detailUsers' },
-  { name: '钱包资产', url: '/accountManagement/walletAsset' },
-  { name: '出入金记录', url: '/accountManagement/cashRecord' },
-  { name: '资金流水', url: '/accountManagement/moneyFlow' },
-  { name: '区块链轮询', url: '/accountManagement/moneyFlow' },
-  { name: 'OTC广告', url: '/accountManagement/moneyFlow' },
-  { name: 'OTC订单', url: '/accountManagement/moneyFlow' },
-  { name: '广告历史', url: '/accountManagement/moneyFlow' },
-  { name: 'CFD持仓单', url: '/accountManagement/moneyFlow' },
-  { name: 'CFD平仓单', url: '/accountManagement/moneyFlow' },
-  { name: 'CFD委托单', url: '/accountManagement/moneyFlow' },
-  { name: '币币挂单', url: '/accountManagement/moneyFlow' },
-  { name: '币币成交单', url: '/accountManagement/moneyFlow' },
-  { name: '币币挂单历史', url: '/accountManagement/moneyFlow' }
+const fieldHn = [
+  {
+    name: 'date',
+    fn: (item) => {
+      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
+    }
+  }
 ]
-const goUrl = (item, url) => {
-  push(`${url}?id=${item.id}`)
-}
-const addUserInfoHn = async () => {
-  let item = await methodsForm.getFormData()
-  console.log(item, 'item=======item')
-  let res = await signupApi(item)
-  console.log(res, 'res==========res')
-  dialogVisible.value = false
-}
-const addHn = () => {
+const dialogVisible = ref(false)
+const sumHn = () => {
   dialogVisible.value = true
+  console.log('sumHn')
 }
 </script>
 <template>
-  <ElDialog v-model="dialogVisible" title="新增" width="30%">
-    <Form
-      label-position="right"
-      hide-required-asterisk
-      :schema="addUserInfo"
-      @register="registryForm"
-    />
+  <ElDialog v-model="dialogVisible" title="汇总" width="30%">
+    <div>
+      <Table :columns="sumColumns" :data="tableObject.otherTableList" />
+    </div>
     <template #footer>
       <span class="dialog-footer">
         <ElButton @click="dialogVisible = false">Cancel</ElButton>
-        <ElButton type="primary" @click="addUserInfoHn"> Confirm </ElButton>
       </span>
     </template>
   </ElDialog>
   <ContentWrap>
     <Search
       layout="inline"
+      :showReset="false"
       :schema="searchParams"
-      :show-add="true"
+      :fieldHn="fieldHn"
+      :showExportExcel="true"
+      :showSum="true"
+      @sum-hn="sumHn"
+      @export-excel="exportExcel"
       @search="methods.setSearchParams"
-      @add-hn="addHn"
     />
 
     <Table
@@ -416,50 +309,6 @@ const addHn = () => {
         total: tableObject.total
       }"
       @register="register"
-    >
-      <template #TraderId="scope">
-        <div>
-          <ElPopover effect="light" trigger="click" placement="right" width="auto">
-            <template #default>
-              <ElScrollbar always :height="240">
-                <div class="flex flex-col">
-                  <div
-                    class="flex justify-between align-middle p-1 cursor-pointer pr-3"
-                    v-for="(item, idx) in tradersList"
-                    :key="idx"
-                    @click="goUrl(scope.row, item.url)"
-                  >
-                    <span>
-                      {{ item.name }}
-                    </span>
-                    <Icon
-                      icon="ep:warning"
-                      color="var(--el-color-primary)"
-                      class="ml-2px relative top-1px"
-                    />
-                  </div>
-                </div>
-              </ElScrollbar>
-            </template>
-            <template #reference>
-              <div class="text-blue-500 cursor-pointer">
-                <Icon
-                  icon="ep:warning"
-                  color="var(--el-color-primary)"
-                  class="ml-2px relative top-1px"
-                />
-                {{ scope.row.UplineDirect }}
-              </div>
-            </template>
-          </ElPopover>
-        </div>
-      </template>
-      <template #action="{ row }">
-        <ElButton type="primary"> {{ t('exampleDemo.edit') }}{{ row.index }} </ElButton>
-        <ElButton type="success">
-          {{ t('exampleDemo.detail') }}
-        </ElButton>
-      </template>
-    </Table>
+    />
   </ContentWrap>
 </template>

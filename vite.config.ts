@@ -120,7 +120,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         // 选项写法
         '/api': {
           // target: 'http://58.com/api',
-          target: 'https://initialcapital.com.tw/api/',
+          // target: 'https://initialcapital.com.tw/api/',
+          target: 'https://demo.hlives.vip/api/',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }

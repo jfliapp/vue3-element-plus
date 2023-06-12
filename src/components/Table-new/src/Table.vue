@@ -101,6 +101,9 @@ export default defineComponent({
     const selectionChange = (selection: Recordable[]) => {
       selections.value = selection
     }
+    const headerCellStyle = () => {
+      return { background: 'rgb(233, 238, 251)' }
+    }
 
     expose({
       setProps,
@@ -259,6 +262,7 @@ export default defineComponent({
               <ElTableColumn
                 showOverflowTooltip={showOverflowTooltip}
                 align={align}
+                minWidth={150}
                 headerAlign={headerAlign}
                 {...props}
                 prop={v.field}
@@ -295,6 +299,7 @@ export default defineComponent({
           // @ts-ignore
           ref={elTableRef}
           data={unref(getProps).data}
+          headerCellStyle={headerCellStyle}
           onSelection-change={selectionChange}
           {...unref(getBindValue)}
         >

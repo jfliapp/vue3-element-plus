@@ -272,7 +272,9 @@ const fieldHn = [
 const dialogVisible = ref(false)
 const sumHn = () => {
   dialogVisible.value = true
-  console.log('sumHn')
+}
+const getExcel = () => {
+  exportExcel(tableObject.tableList, tableColumns)
 }
 </script>
 <template>
@@ -295,7 +297,7 @@ const sumHn = () => {
       :showExportExcel="true"
       :showSum="true"
       @sum-hn="sumHn"
-      @export-excel="exportExcel"
+      @export-excel="getExcel"
       @search="methods.setSearchParams"
     />
 

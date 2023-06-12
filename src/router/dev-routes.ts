@@ -162,5 +162,33 @@ export const devRoutes: AppRouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/orderManagement',
+    component: Layout,
+    redirect: '/orderManagement/cfdOrder',
+    name: 'OrderManagement',
+    meta: {
+      title: '订单管理',
+      icon: 'carbon:skill-level-advanced'
+    },
+    children: [
+      {
+        path: 'cfdOrder',
+        name: 'CfdOrder',
+        component: () => import('@/views/OrderManagement/CfdOrder.vue'),
+        meta: {
+          title: 'CFD订单'
+        }
+      },
+      {
+        path: 'fundingOrder',
+        name: 'FundingOrder',
+        component: () => import('@/views/OrderManagement/FundingOrder.vue'),
+        meta: {
+          title: '配置订单'
+        }
+      }
+    ]
   }
 ]

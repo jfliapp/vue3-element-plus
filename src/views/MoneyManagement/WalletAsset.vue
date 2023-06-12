@@ -35,7 +35,6 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
         }
         return temp
       })
-      console.log(x, 'xxxx-xxx')
       return x
     }
   }

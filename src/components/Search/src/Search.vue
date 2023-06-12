@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form } from '@/components/Form-new'
-import { PropType, computed, unref, ref } from 'vue'
+import { PropType, computed, watch, unref, ref } from 'vue'
 import { propTypes } from '@/utils/propTypes'
 import { ElButton } from 'element-plus'
 import { useI18n } from '@/hooks/web/useI18n'
@@ -27,8 +27,10 @@ const props = defineProps({
   buttomPosition: propTypes.string
     .validate((v: string) => ['left', 'center', 'right'].includes(v))
     .def('center'),
+  flag: propTypes.bool.def(false),
   showSearch: propTypes.bool.def(true),
   showExportExcel: propTypes.bool.def(false),
+  showHoldingSum: propTypes.bool.def(false),
   showAdd: propTypes.bool.def(false),
   showSum: propTypes.bool.def(false),
   showReset: propTypes.bool.def(true),
@@ -47,9 +49,10 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['search', 'reset', 'exportExcel', 'addHn', 'sumHn'])
+const emit = defineEmits(['search', 'reset', 'exportExcel', 'addHn', 'sumHn', 'holdingSumHn'])
 
 const visible = ref(true)
+const flag = ref(props.flag)
 
 const newSchema = computed(() => {
   let schema: FormSchema[] = cloneDeep(props.schema)
@@ -80,6 +83,13 @@ const newSchema = computed(() => {
   return schema
 })
 
+watch(
+  () => props.flag,
+  (newVal) => {
+    flag.value = newVal
+  }
+)
+
 const { register, elFormRef, methods } = useForm({
   model: props.model || {}
 })
@@ -106,7 +116,8 @@ const search = async () => {
 }
 
 const handle = (item) => {
-  emit(item)
+  flag.value = !flag.value
+  emit(item, flag.value)
 }
 
 const reset = async () => {
@@ -152,6 +163,10 @@ const setVisible = () => {
         <ElButton v-if="showExportExcel" type="primary" @click="handle('exportExcel')">
           <Icon icon="tabler:file-export" class="mr-5px" />
           {{ t('导出') }}
+        </ElButton>
+        <ElButton v-if="showHoldingSum" type="primary" @click="handle('holdingSumHn')">
+          <Icon icon="tabler:file-export" class="mr-5px" />
+          {{ t('持仓汇总') }}
         </ElButton>
         <ElButton v-if="showSum" type="primary" @click="handle('sumHn')">
           <Icon icon="tabler:file-export" class="mr-5px" />

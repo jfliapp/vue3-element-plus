@@ -131,8 +131,11 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   }
 
   const methods = {
-    getList: async () => {
-      tableObject.loading = true
+    getList: async (flag = true) => {
+      // flag 用来判断 是否需要加载的动画 定时器的时候 就不需要
+      if (flag) {
+        tableObject.loading = true
+      }
       const res = await config?.getListApi(unref(paramsObj)).finally(() => {
         tableObject.loading = false
       })

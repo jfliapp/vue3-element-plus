@@ -148,7 +148,8 @@ const getRole = async () => {
   const { getFormData } = methods
   const formData = await getFormData<UserLoginType>()
   const params = {
-    roleName: formData.username
+    roleName: formData.username,
+    authtype: 3
   }
   // admin - 模拟后端过滤菜单
   // test - 模拟前端过滤菜单

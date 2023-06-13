@@ -7,12 +7,16 @@ import axios, {
 } from 'axios'
 
 import { ElMessage } from 'element-plus'
-
+import { useCache } from '@/hooks/web/useCache'
+import { resetRouter } from '@/router'
+import { useTagsViewStore } from '@/store/modules/tagsView'
 // import qs from 'qs'
 
 import { config } from '@/config/axios/config'
 
 const { result_code, base_url } = config
+const { wsCache } = useCache()
+const tagsViewStore = useTagsViewStore()
 
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
 // 创建axios实例
@@ -64,6 +68,10 @@ service.interceptors.response.use(
       return response.data
     } else {
       ElMessage.error(response.data.message)
+
+      wsCache.clear()
+      tagsViewStore.delAllViews()
+      resetRouter() // 重置静态路由表
       // ???
       window.location.href = '/#/login'
     }

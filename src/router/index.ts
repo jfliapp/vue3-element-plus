@@ -27,6 +27,16 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
           title: t('router.dashboard'),
           noTagsView: true
         }
+      },
+      {
+        path: 'detailUsers',
+        component: () => import('@/views/AccountManagement/DetailUsers.vue'),
+        name: 'DetailUsers',
+        meta: {
+          hidden: true,
+          title: t('用户详情'),
+          noTagsView: true
+        }
       }
     ]
   },
@@ -51,16 +61,6 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
     path: '/login',
     component: () => import('@/views/Login/Login.vue'),
     name: 'Login',
-    meta: {
-      hidden: true,
-      title: t('router.login'),
-      noTagsView: true
-    }
-  },
-  {
-    path: '/hello',
-    component: () => import('@/views/Hello/Hello.vue'),
-    name: 'Hello',
     meta: {
       hidden: true,
       title: t('router.login'),

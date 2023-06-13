@@ -18,7 +18,7 @@ import { ref, onActivated } from 'vue'
 
 const { t } = useI18n()
 const { push } = useRouter()
-const { register: registryForm, methods: methodsForm } = useForm({})
+const { register: registryForm, elFormRef, methods: methodsForm } = useForm({})
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
   getListApi: getScheduleEnduserListApi,
   defaultParams: {
@@ -37,7 +37,7 @@ methods.getList()
 const dialogVisible = ref(false)
 const addUserInfo: tableFieldsType[] = [
   {
-    field: 'x',
+    field: 'invitecode',
     label: '邀请码',
     colProps: {
       span: 24
@@ -48,7 +48,7 @@ const addUserInfo: tableFieldsType[] = [
     }
   },
   {
-    field: 'x',
+    field: 'country',
     label: '国家',
     component: 'Select',
     colProps: {
@@ -61,7 +61,7 @@ const addUserInfo: tableFieldsType[] = [
   },
 
   {
-    field: 'x',
+    field: 'tel',
     label: '手机号',
     component: 'Input',
     colProps: {
@@ -72,7 +72,7 @@ const addUserInfo: tableFieldsType[] = [
     }
   },
   {
-    field: 'x',
+    field: 'mail',
     label: '邮箱',
     component: 'Input',
     colProps: {
@@ -83,7 +83,7 @@ const addUserInfo: tableFieldsType[] = [
     }
   },
   {
-    field: 'x',
+    field: 'pwd',
     label: '登录密码',
     colProps: {
       span: 24
@@ -95,7 +95,7 @@ const addUserInfo: tableFieldsType[] = [
     }
   },
   {
-    field: 'x',
+    field: 'pwd2',
     label: '确认密码',
     colProps: {
       span: 24
@@ -353,7 +353,7 @@ const searchParams: tableFieldsType[] = [
   }
 ]
 const tradersList = [
-  { name: '用户详情', url: '/accountManagement/detailUsers' },
+  { name: '用户详情', url: 'detailUsers' },
   { name: '钱包资产', url: '/accountManagement/walletAsset' },
   { name: '出入金记录', url: '/accountManagement/cashRecord' },
   { name: '资金流水', url: '/accountManagement/moneyFlow' },
@@ -378,12 +378,46 @@ const goUrl = (item, url) => {
   popDisabled.value = true
   push(`${url}?id=${item.id}`)
 }
+const checkPwd2 = async (_: any, value: any, callback: any) => {
+  const formData = await methodsForm.getFormData()
+  if (value === '') {
+    callback(new Error('请输入密码'))
+  } else if (value !== formData!.pwd) {
+    callback(new Error('两个密码不一样'))
+  } else {
+    callback()
+  }
+}
+const addUserInfoRules = {
+  invitecode: [{ required: true, message: '邀请码不能为空', trigger: 'blur' }],
+  country: [
+    {
+      required: true,
+      message: '请选择国家',
+      trigger: 'change'
+    }
+  ],
+  tel: [{ required: true, message: '手机号不能为空', trigger: 'blur' }],
+  mail: [
+    { required: true, message: '邮箱不能为空', trigger: 'blur' },
+    { type: 'email', message: '请填写正确的邮箱' }
+  ],
+  pwd: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+  pwd2: [{ validator: checkPwd2, trigger: 'blur' }]
+}
 const addUserInfoHn = async () => {
-  let item = await methodsForm.getFormData()
-  console.log(item, 'item=======item')
-  let res = await signupApi(item)
-  console.log(res, 'res==========res')
-  dialogVisible.value = false
+  elFormRef.value!.validate(async (valid) => {
+    if (valid) {
+      console.log('submit!')
+      const item = await methodsForm.getFormData()
+      console.log(item, 'item=======item')
+      let res = await signupApi(item)
+      if (res.data.error === 'OK') {
+        dialogVisible.value = false
+        methods.getList()
+      }
+    }
+  })
 }
 const addHn = () => {
   dialogVisible.value = true
@@ -393,6 +427,7 @@ const addHn = () => {
   <ElDialog v-model="dialogVisible" title="新增" width="30%">
     <Form
       label-position="right"
+      :rules="addUserInfoRules"
       hide-required-asterisk
       :schema="addUserInfo"
       @register="registryForm"
@@ -400,7 +435,7 @@ const addHn = () => {
     <template #footer>
       <span class="dialog-footer">
         <ElButton @click="dialogVisible = false">Cancel</ElButton>
-        <ElButton type="primary" @click="addUserInfoHn"> Confirm </ElButton>
+        <ElButton type="primary" @click.stop.prevent="addUserInfoHn"> Confirm </ElButton>
       </span>
     </template>
   </ElDialog>

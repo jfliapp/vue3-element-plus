@@ -11,7 +11,7 @@ export const loginApi = (data: UserLoginType) => {
 }
 
 export const loginOutApi = () => {
-  return request.get({ url: '/admin/cur_list' })
+  return request.post({ url: '/public/signout' })
 }
 
 export const getUserListApi = ({ params }: AxiosConfig) => {

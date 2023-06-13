@@ -80,6 +80,12 @@ const data4 = reactive([])
 
 const data5 = reactive([])
 
+const previewSrcList = [
+  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+  'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+  'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
+]
+
 onMounted(async () => {
   let res = await getUserDetailApi({ eu: Number(query.id) })
   console.log(res)
@@ -153,6 +159,7 @@ onMounted(async () => {
                   <div class="flex flex-col items-center">
                     <ElImage
                       style="width: 100px; height: 100px"
+                      :preview-src-list="previewSrcList"
                       src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
                     />
                     <span class="pt-1 text-sm text-dark-50">身份证正面照片</span>

@@ -13,17 +13,15 @@ import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
 import { usePermissionStore } from '@/store/modules/permission'
 import { useRouter } from 'vue-router'
-// import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
+import { onMounted } from 'vue'
 
 const appStore = useAppStore()
 
 const permissionStore = usePermissionStore()
 // const getData = await loginOutApi()
-// console.log(getData)
 
-// const { currentRoute, addRoute, push, getRoutes } = useRouter()
-const { currentRoute, push } = useRouter()
+const { currentRoute, addRoute, push } = useRouter()
 
 const { t } = useI18n()
 
@@ -105,6 +103,7 @@ const loading = ref(false)
 const iconColor = '#999'
 
 const redirect = ref<string>('')
+const type = ref('staff')
 
 watch(
   () => currentRoute.value,
@@ -115,6 +114,10 @@ watch(
     immediate: true
   }
 )
+onMounted(() => {
+  const val = currentRoute.value?.query?.type as string
+  type.value = val || 'staff'
+})
 
 // 登录
 const signIn = async () => {
@@ -124,15 +127,15 @@ const signIn = async () => {
       loading.value = true
       const { getFormData } = methods
       const formData = await getFormData<UserLoginType>()
-      formData.type = 'staff'
-
+      formData.type = 'staff' // TODO
       const res = await loginApi(formData)
         .catch(() => {})
         .finally(() => (loading.value = false))
 
       if (res) {
         const { wsCache } = useCache()
-        wsCache.set(appStore.getUserInfo, res.data)
+        // wsCache.set(appStore.getUserInfo, res.data)
+        wsCache.set(appStore.getUserInfo, { ...res.data, role: type.value })
 
         getRole()
       }
@@ -149,30 +152,23 @@ const getRole = async () => {
   }
   // admin - 模拟后端过滤菜单
   // test - 模拟前端过滤菜单
-  // const res =
-  //   formData.username === 'admin'
-  //     ? await getAdminRoleApi({ params })
-  //     : await getTestRoleApi({ params })
-
   const res = await getRoleMenuListApi({ params })
 
   if (res) {
-    // const { wsCache } = useCache()
-    // const routers = res.data.list || []
-    // wsCache.set('roleRouters', routers)
+    const { wsCache } = useCache()
+    const routers = res.data.list || []
+    wsCache.set('roleRouters', routers)
+    if (type.value === 'admin') {
+      await permissionStore.generateRoutes('admin', routers).catch(() => {})
+    } else {
+      await permissionStore.generateRoutes('none', []).catch(() => {})
+    }
 
-    // formData.username === 'admin'
-    //   ? await permissionStore.generateRoutes('admin', routers).catch(() => {})
-    //   : await permissionStore.generateRoutes('test', routers).catch(() => {})
-    // await permissionStore.generateRoutes('test', routers).catch(() => {})
-
-    // permissionStore.getAddRouters.forEach((route) => {
-    //   addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
-    // })
-    // permissionStore.setIsAddRouters(true)
-    // push({ path: redirect.value || permissionStore.addRouters[0].path })
-    await permissionStore.generateRoutes('none', []).catch(() => {})
-    push({ path: '/schedule' })
+    permissionStore.getAddRouters.forEach((route) => {
+      addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
+    })
+    permissionStore.setIsAddRouters(true)
+    push({ path: redirect.value || permissionStore.addRouters[0].path })
   }
 }
 </script>

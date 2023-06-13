@@ -18,7 +18,7 @@ export const devRoutes: AppRouteRecordRaw[] = [
       {
         path: 'registrationAudit',
         name: 'RegistrationAudit',
-        component: () => import('@/views/Schedule/ScheduleAudit.vue'),
+        component: () => import('@/views/Schedule/RegistrationAudit.vue'),
         meta: {
           title: '注册审核'
         }
@@ -187,6 +187,26 @@ export const devRoutes: AppRouteRecordRaw[] = [
         component: () => import('@/views/OrderManagement/FundingOrder.vue'),
         meta: {
           title: '配置订单'
+        }
+      }
+    ]
+  },
+  {
+    path: '/reportManagement',
+    component: Layout,
+    redirect: '/reportManagement/walletStatistical',
+    name: 'ReportManagement',
+    meta: {
+      title: '报表管理',
+      icon: 'carbon:skill-level-advanced'
+    },
+    children: [
+      {
+        path: 'walletStatistical',
+        name: 'WalletStatistical',
+        component: () => import('@/views/ReportManagement/WalletStatistical.vue'),
+        meta: {
+          title: '钱包账户统计'
         }
       }
     ]

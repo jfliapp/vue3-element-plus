@@ -4,8 +4,6 @@ import type { App } from 'vue'
 import { Layout } from '@/utils/routerHelper'
 import { useI18n } from '@/hooks/web/useI18n'
 
-import { devRoutes } from './dev-routes'
-
 const { t } = useI18n()
 
 export const constantRouterMap: AppRouteRecordRaw[] = [
@@ -21,7 +19,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
     },
     children: [
       {
-        path: '/dashboard',
+        path: 'dashboard',
         component: import('@/views/Hello/Hello.vue'),
         name: 'dashboard',
         meta: {
@@ -81,13 +79,10 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   }
 ]
 
-export const routeList = constantRouterMap.concat(devRoutes)
-
 const router = createRouter({
   history: createWebHashHistory(),
   strict: true,
-  // routes: constantRouterMap as RouteRecordRaw[],
-  routes: routeList as RouteRecordRaw[],
+  routes: constantRouterMap as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
 

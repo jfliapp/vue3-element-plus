@@ -107,3 +107,12 @@ export function toAnyString() {
   })
   return str
 }
+
+// 某个字母大写
+export function upCaseIdxWord(str: string, index = 0) {
+  const first = str.slice(0, index)
+  let mid = str.slice(index, index + 1)
+  mid = mid.toLocaleUpperCase()
+  const last = str.slice(index + 1)
+  return first + mid + last
+}

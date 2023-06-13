@@ -64,11 +64,19 @@ declare global {
   }
 
   declare interface AppCustomRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
-    name: string
-    meta: RouteMeta
-    component: string
-    path: string
-    redirect: string
-    children?: AppCustomRouteRecordRaw[]
+    // name: string
+    // meta: RouteMeta
+    // component: string
+    // path: string
+    // redirect: string
+    // children?: AppCustomRouteRecordRaw[]
+
+    id: Number
+    Url: string
+    Icon: string
+    Parent: Number
+    Desc: string
+    AuthType: Number
+    list: AppCustomRouteRecordRaw[]
   }
 }

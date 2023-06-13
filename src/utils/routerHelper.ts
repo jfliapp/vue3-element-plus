@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { Router, RouteLocationNormalized, RouteRecordNormalized, RouteMeta } from 'vue-router'
 import { isUrl } from '@/utils/is'
 import { omit, cloneDeep } from 'lodash-es'
+import { upCaseIdxWord } from '.'
 
 const modules = import.meta.glob('../views/**/*.{vue,tsx}')
 
@@ -83,31 +85,39 @@ export const generateRoutesFn1 = (
 }
 
 // 后端控制路由生成
-export const generateRoutesFn2 = (routes: AppCustomRouteRecordRaw[]): AppRouteRecordRaw[] => {
+export const generateRoutesFn2 = (
+  routes: AppCustomRouteRecordRaw[],
+  parentName = ''
+): AppRouteRecordRaw[] => {
   const res: AppRouteRecordRaw[] = []
-
   for (const route of routes) {
+    const routerName = upCaseIdxWord(route.Url)
     const data: AppRouteRecordRaw = {
-      path: route.path,
-      name: route.name,
-      redirect: route.redirect,
-      meta: route.meta
+      path: (route.Parent === 0 ? '/' : '') + route.Url,
+      name: routerName,
+      component: route.Parent === 0 ? Layout : null,
+      meta: {
+        title: route.Desc,
+        icon: route.Icon
+      }
     }
-    if (route.component) {
-      const comModule = modules[`../${route.component}.vue`] || modules[`../${route.component}.tsx`]
-      const component = route.component as string
-      if (!comModule && !component.includes('#')) {
-        console.error(`未找到${route.component}.vue文件或${route.component}.tsx文件，请创建`)
+    if (route.Parent !== 0 && route.Url) {
+      const comModule =
+        modules[`../views/${parentName}/${routerName}.vue`] ||
+        modules[`../views/${parentName}/${routerName}.tsx`]
+      if (!comModule) {
+        console.error(`未找到${routerName}.vue文件或${routerName}.tsx文件，请创建`)
       } else {
         // 动态加载路由文件，可根据实际情况进行自定义逻辑
-        data.component =
-          component === '#' ? Layout : component.includes('##') ? getParentLayout() : comModule
+        data.component = comModule
       }
     }
     // recursive child routes
-    if (route.children) {
-      data.children = generateRoutesFn2(route.children)
+    if (route?.list?.length > 0) {
+      data.children = generateRoutesFn2(route.list, routerName)
+      data.redirect = '/' + route.Url + '/' + route.list[0].Url
     }
+
     res.push(data as AppRouteRecordRaw)
   }
   return res

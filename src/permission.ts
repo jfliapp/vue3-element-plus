@@ -27,10 +27,10 @@ router.beforeEach(async (to, from, next) => {
   console.log('从那个路由来: ', from)
 
   // TODO 线上请求来的路由 因为没写component 组件会进不去
-  const toMatchs = to.matched
-  const flag = toMatchs.some((item) => {
+  const toMatched = to.matched
+  const flag = toMatched.some((item) => {
     if (item.path === to.path) {
-      return !item.components.default
+      return !item?.components?.default
     }
   })
   if (flag) {

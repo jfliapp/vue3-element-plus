@@ -8,7 +8,7 @@ import axios, {
 
 import { ElMessage } from 'element-plus'
 import { useCache } from '@/hooks/web/useCache'
-import { resetRouter } from '@/router'
+import router, { resetRouter } from '@/router'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 // import qs from 'qs'
 
@@ -72,8 +72,7 @@ service.interceptors.response.use(
       wsCache.clear()
       tagsViewStore.delAllViews()
       resetRouter() // 重置静态路由表
-      // ???
-      window.location.href = '/#/login'
+      router.replace('/')
     }
   },
   (error: AxiosError) => {

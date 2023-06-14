@@ -14,10 +14,9 @@ import {
   params2,
   params3,
   params4,
-  tableColumns1,
-  tableColumns2,
+  tableColumnsPayments,
+  tableColumnsSacs,
   tableColumns3,
-  tableColumns4,
   tableColumns5
 } from './const'
 
@@ -87,7 +86,7 @@ const previewSrcList = [
 ]
 
 onMounted(async () => {
-  let res = await getUserDetailApi({ eu: Number(query.id) })
+  const res = await getUserDetailApi({ eu: Number(query.id) })
   console.log(res)
 })
 </script>
@@ -185,10 +184,10 @@ onMounted(async () => {
         </ElCol>
       </ElRow>
     </section>
-    <DetailTable title="收款方式" :columns="tableColumns1" :data="data1" />
-    <DetailTable title="钱包账号" :columns="tableColumns2" :data="data2" />
+    <DetailTable title="收款方式" :columns="tableColumnsPayments" :data="data1" />
+    <DetailTable title="钱包账号" :columns="tableColumnsSacs" :data="data2" />
     <DetailTable title="奖励账户" :columns="tableColumns3" :data="data3" />
-    <DetailTable title="配资账户" :columns="tableColumns4" :data="data4" />
+    <DetailTable title="配资账户" :columns="tableColumnsSacs" :data="data4" />
     <DetailTable title="合约账户" :columns="tableColumns5" :data="data5" />
   </ContentWrap>
 </template>

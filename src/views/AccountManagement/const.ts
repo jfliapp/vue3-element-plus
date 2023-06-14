@@ -292,34 +292,37 @@ export const params4: tableFieldsType[] = [
   }
 ]
 
-export const tableColumns1: TableColumn[] = [
+export const tableColumnsPayments: TableColumn[] = [
   {
-    field: 'index',
-    type: 'index',
-    label: '序号'
-  },
-  {
-    field: 'ID',
-    label: '姓名'
+    field: 'id',
+    label: 'ID'
   },
   {
     field: 'id1',
+    label: '通道'
+  },
+  {
+    field: 'Name',
+    label: '姓名'
+  },
+  {
+    field: 'Bank',
     label: '开户行'
   },
   {
-    field: 'account',
+    field: 'AcctNo',
     label: '账号'
   },
   {
-    field: 'message',
+    field: 'Branch',
     label: '附加信息'
   },
   {
-    field: 'desc',
+    field: 'Desc',
     label: '备注'
   },
   {
-    field: 'img',
+    field: 'QrCode',
     label: '图片'
   },
   {
@@ -328,50 +331,45 @@ export const tableColumns1: TableColumn[] = [
   }
 ]
 
-export const tableColumns2: TableColumn[] = [
-  {
-    field: 'index',
-    type: 'index',
-    label: '序号'
-  },
+export const tableColumnsSacs: TableColumn[] = [
   {
     field: 'ID',
     label: '账户类型'
   },
   {
-    field: 'id1',
+    field: 'id',
     label: '账号'
   },
   {
-    field: 'account',
+    field: 'CurCode',
     label: '币种'
   },
   {
-    field: 'message',
+    field: 'Balance',
     label: '余额'
   },
   {
-    field: 'desc',
+    field: 'available', // 自己算余额减去冻结
     label: '可用'
   },
   {
-    field: 'img',
+    field: 'Frozen',
     label: '冻结'
   },
   {
-    field: 'action',
+    field: 'a',
     label: '入金状态'
   },
   {
-    field: 'action',
+    field: 'a',
     label: '出金状态'
   },
   {
-    field: 'action',
+    field: 'a',
     label: '最低出金额度'
   },
   {
-    field: 'action',
+    field: 'Status',
     label: '账户状态'
   },
   {
@@ -381,42 +379,100 @@ export const tableColumns2: TableColumn[] = [
 ]
 
 export const tableColumns3: TableColumn[] = [
-  { field: 'x', label: '账户类型' },
-  { field: 'x', label: '保如' },
-  { field: 'x', label: '币种' },
-  { field: 'x', label: '余额' },
-  { field: 'x', label: '可用' },
-  { field: 'x', label: '冻结' },
-  { field: 'x', label: '账户状态' },
-  { field: 'x', label: '操作' }
-]
-
-export const tableColumns4: TableColumn[] = [
-  { field: 'x', label: '账户类型' },
-  { field: 'x', label: '账号' },
-  { field: 'x', label: '币种' },
-  { field: 'x', label: '余额' },
-  { field: 'x', label: '可用' },
-  { field: 'x', label: '冻结' },
-  { field: 'x', label: '入金状态' },
-  { field: 'x', label: '出金状态' },
-  { field: 'x', label: '最低出金额度' },
-  { field: 'x', label: '账户状态' }
+  {
+    field: 'ID',
+    label: '账户类型'
+  },
+  {
+    field: 'id',
+    label: '账号'
+  },
+  {
+    field: 'CurCode',
+    label: '币种'
+  },
+  {
+    field: 'Balance',
+    label: '余额'
+  },
+  {
+    field: 'available', // 自己算余额减去冻结
+    label: '可用'
+  },
+  {
+    field: 'Frozen',
+    label: '冻结'
+  },
+  {
+    field: 'Status',
+    label: '账户状态'
+  },
+  {
+    field: 'action',
+    label: '操作'
+  }
 ]
 
 export const tableColumns5: TableColumn[] = [
-  { field: 'x', label: '账号' },
-  { field: 'x', label: '币种' },
-  { field: 'x', label: '真实/模拟' },
-  { field: 'x', label: '金期' },
-  { field: 'x', label: '可用' },
-  { field: 'x', label: '冻结' },
-  { field: 'x', label: '卖开仓' },
-  { field: 'x', label: '平仓' },
-  { field: 'x', label: '预警风险率' },
-  { field: 'x', label: '爆仓风险率' },
-  { field: 'x', label: '是否对冲' },
-  { field: 'x', label: '账户状态' },
-  { field: 'x', label: '对手方账户ID' }
+  {
+    field: 'id',
+    label: '账号'
+  },
+  {
+    field: 'CurCode',
+    label: '币种'
+  },
+  {
+    field: 'id',
+    label: '真实模拟'
+  },
+  {
+    field: 'Balance',
+    label: '余额'
+  },
+  {
+    field: 'available', // 自己算余额减去冻结
+    label: '可用'
+  },
+  {
+    field: 'Frozen',
+    label: '冻结'
+  },
+  {
+    field: 'a',
+    label: '买开仓'
+  },
+  {
+    field: 'a',
+    label: '卖开仓'
+  },
+  {
+    field: 'a',
+    label: '平仓'
+  },
+  {
+    field: 'a',
+    label: '预警风险率'
+  },
+  {
+    field: 'a',
+    label: '爆仓风险率'
+  },
+  {
+    field: 'a',
+    label: '是否对冲'
+  },
+  {
+    field: 'Status',
+    label: '账户状态'
+  },
+  {
+    field: 'a',
+    label: '对手方账户ID'
+  },
+  {
+    field: 'action',
+    label: '操作'
+  }
 ]
 // -------------------- end --- 用户详情--------------------

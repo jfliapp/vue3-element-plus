@@ -39,6 +39,7 @@ interface TableObject<T = any> {
   tableList: T[]
   otherTableList: any[]
   params: any
+  defaultParams: any
   loading: boolean
   currentRow: Nullable<T>
 }
@@ -56,6 +57,10 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     otherTableList: [], // 返回的其他的外面需要数据
     // AxiosConfig 配置
     params: {
+      ...(config?.defaultParams || {})
+    },
+    // 默认参数
+    defaultParams: {
       ...(config?.defaultParams || {})
     },
     // 加载中
@@ -173,7 +178,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     // 与Search组件结合
     setSearchParams: (data: Recordable) => {
       tableObject.currentPage = 1
-      tableObject.params = Object.assign(tableObject.params, {
+      tableObject.params = Object.assign({}, tableObject.defaultParams, {
         size: tableObject.pageSize,
         page: tableObject.currentPage,
         ...data

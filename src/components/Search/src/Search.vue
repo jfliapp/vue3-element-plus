@@ -107,10 +107,10 @@ const search = async () => {
   await unref(elFormRef)?.validate(async (isValid) => {
     if (isValid) {
       const { getFormData } = methods
-      let model = await getFormData()
+      const model = await getFormData()
       let temp = { ...model }
       let fieldHns = props.fieldHn || []
-      if (temp.hasOwnProperty('__dateRange') && temp.__dateRange === '') {
+      if (temp.hasOwnProperty('__dateRange') && !temp.__dateRange) {
         delete temp.__dateRange
       }
       if (temp.__dateRange) {
@@ -118,7 +118,7 @@ const search = async () => {
       }
       if (fieldHns.length > 0) {
         fieldHns.forEach((item) => {
-          let v = temp![item.name]
+          const v = temp![item.name]
           if (v) {
             let o = item.fn(v)
             delete temp[item.name]

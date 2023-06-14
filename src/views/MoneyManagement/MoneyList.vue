@@ -38,7 +38,23 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 })
 
 methods.getList()
+const fieldHns = [
+  {
+    name: 'partnertype',
+    fn: function (v) {
+      let map = new Map()
+      map.set('__a', { partnertype: '' })
+      map.set('__b', { central: true })
+      map.set('__c', { bizauthconnect: true })
+      map.set('__d', { partnertype: 0 })
+      map.set('__e', { partnertype: 1 })
+      map.set('__f', { partnertype: 1, marketmaking: 2 })
+      map.set('__g', { partnertype: 2 })
 
+      return map.get(v)
+    }
+  }
+]
 const spanMethod = ({ row, columnIndex }) => {
   let columns = [0, 1, 2, 3]
   if (columns.includes(columnIndex)) {
@@ -61,6 +77,7 @@ const spanMethod = ({ row, columnIndex }) => {
     <Search
       layout="inline"
       :showReset="false"
+      :field-hn="fieldHns"
       :schema="moneyListSearchParams"
       @search="methods.setSearchParams"
     />

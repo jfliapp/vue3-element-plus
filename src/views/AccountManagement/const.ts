@@ -84,6 +84,29 @@ const authOption = [
   }
 ]
 
+const serverOptions = [
+  {
+    value: 0,
+    label: '无'
+  },
+  {
+    value: 1,
+    label: '免登录服务'
+  },
+  {
+    value: 2,
+    label: '支付服务'
+  }
+]
+
+// TODO 枚举待定
+const uplineOptions = [
+  {
+    value: 1212,
+    label: '1212-123-外部'
+  }
+]
+
 export const addUserInfoParams: tableFieldsType[] = [
   {
     field: 'invitecode',
@@ -800,3 +823,148 @@ export const tableColumns5: TableColumn[] = [
   }
 ]
 // -------------------- end --- 用户详情--------------------
+
+export const addTradeInfoParams: tableFieldsType[] = [
+  {
+    field: 'upline',
+    label: '所属机构',
+    colProps: {
+      span: 24
+    },
+    component: 'Select',
+    componentProps: {
+      options: uplineOptions,
+      clearable: false
+    }
+  },
+  {
+    field: 'code',
+    label: '商户代码',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'caption',
+    label: '商户名称',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'euid',
+    label: '用户ID',
+    component: 'Input',
+    colProps: {
+      span: 24
+    },
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'paycallback',
+    label: '回调地址1',
+    colProps: {
+      span: 24
+    },
+    component: 'Input',
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'paycallback2',
+    label: '回调地址2',
+    colProps: {
+      span: 24
+    },
+    component: 'Input',
+    componentProps: {
+      clearable: false
+    }
+  },
+  {
+    field: 'server',
+    label: '接入服务',
+    colProps: {
+      span: 24
+    },
+    component: 'Select',
+    componentProps: {
+      options: serverOptions,
+      clearable: false
+    }
+  }
+]
+
+export const tradeInfoTableColumns: TableColumn[] = [
+  {
+    field: 'index',
+    type: 'index',
+    label: '序号'
+  },
+  {
+    field: 'Caption',
+    prop: 'Caption',
+    label: 'ID'
+  },
+  {
+    prop: 'Code',
+    field: 'Code',
+    label: 'Code'
+  },
+  {
+    prop: 'BindTel',
+    field: 'BindTel',
+    label: '账户ID'
+  },
+  {
+    prop: 'BindMail',
+    field: 'BindMail',
+    label: '名称'
+  },
+  {
+    prop: 'UplineDirect',
+    field: 'UplineDirect',
+    label: '直接上级'
+  },
+  {
+    prop: 'Caption',
+    field: 'Caption',
+    label: '根上级'
+  },
+  {
+    prop: 'VerName',
+    field: 'VerName',
+    label: '返回地址'
+  },
+  {
+    prop: 'VerIdCardNo',
+    field: 'VerIdCardNo',
+    label: '手续费费率'
+  },
+  {
+    prop: 'Status',
+    field: 'Status',
+    label: '状态'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '操作员'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '创建时间'
+  }
+]

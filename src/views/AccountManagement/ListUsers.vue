@@ -99,9 +99,7 @@ const addUserInfoRules = {
 const addUserInfoHn = async () => {
   elFormRef.value!.validate(async (valid) => {
     if (valid) {
-      console.log('submit!')
       const item = await methodsForm.getFormData()
-      console.log(item, 'item=======item')
       let res = await signupApi(item)
       if (res.data.error === 'OK') {
         dialogVisible.value = false

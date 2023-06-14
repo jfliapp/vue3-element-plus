@@ -6,6 +6,7 @@ import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType } from './types'
 import { accessSearchParams, accessTableColumns } from './const'
+import { ElImage } from 'element-plus'
 // import { useI18n } from '@/hooks/web/useI18n'
 
 // import { reactive } from 'vue'
@@ -59,6 +60,21 @@ methods.getList()
         total: tableObject.total
       }"
       @register="register"
-    />
+    >
+      <template #LedgerImg="scope">
+        <div>
+          <ElImage
+            style="width: 60px; height: 20px"
+            :preview-teleported="true"
+            :preview-src-list="[scope.row.LedgerImg]"
+            :src="scope.row.LedgerImg"
+          >
+            <template #error>
+              <div class="text-xs text-gray-300"> 加载失败 </div>
+            </template>
+          </ElImage>
+        </div>
+      </template>
+    </Table>
   </ContentWrap>
 </template>

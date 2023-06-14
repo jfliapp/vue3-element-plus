@@ -45,23 +45,79 @@ const curCodeOptions: Options[] = [
     label: 'USDT'
   }
 ]
-// 终端列表
-const partnertypeOptions: Options[] = [
+const partnertypeMoneyListOptions: Options[] = [
   {
-    value: '-1',
+    value: '__a',
+    label: '终端用户'
+  },
+  {
+    value: '__d',
+    label: '运营中心'
+  },
+  {
+    value: '__e',
+    label: '会员'
+  },
+  {
+    value: '__f',
+    label: '特别会员'
+  },
+  {
+    value: '__g',
+    label: '代理'
+  }
+]
+
+const partnertypeCashRecordOptions: Options[] = [
+  {
+    value: '__b',
+    label: '中央账户'
+  },
+  {
+    value: '__c',
+    label: '支付商户'
+  },
+  ...partnertypeMoneyListOptions
+]
+const cashTypeOptions: Options[] = [
+  {
+    value: -1,
     label: '全部'
   },
   {
-    value: 'TWD',
-    label: 'TWD'
+    value: 2,
+    label: '入金'
   },
   {
-    value: 'USD',
-    label: 'USD'
+    value: 3,
+    label: '出金'
+  }
+]
+
+const cashmodeOptions = [
+  {
+    value: -1,
+    label: '全部'
   },
   {
-    value: 'USDT',
-    label: 'USDT'
+    value: 0,
+    label: 'Zeuspay平台'
+  },
+  {
+    value: 1,
+    label: '对公银行'
+  },
+  {
+    value: 2,
+    label: '区块链'
+  },
+  {
+    value: 3,
+    label: 'Radiofinance平台入金'
+  },
+  {
+    value: 4,
+    label: '对公数字币'
   }
 ]
 
@@ -635,7 +691,7 @@ export const moneyListSearchParams: tableFieldsType[] = [
     label: '用户类型',
     component: 'Select',
     componentProps: {
-      options: partnertypeOptions
+      options: partnertypeMoneyListOptions
     }
   },
   {
@@ -789,4 +845,288 @@ export const redBleListColumns: TableColumn[] = [
     field: 'Frozen',
     label: '冻结'
   }
+]
+
+// 出入金记录 cashRecord
+export const cashRecordSearchParams: tableFieldsType[] = [
+  {
+    field: 'partnertype',
+    prop: 'partnertype',
+    value: '',
+    label: '用户类型',
+    component: 'Select',
+    componentProps: {
+      options: partnertypeCashRecordOptions
+    }
+  },
+  {
+    field: 'partnerterm',
+    value: '',
+    prop: 'partnerterm',
+    label: '所属机构',
+    component: 'Input'
+  },
+  {
+    field: 'selectall',
+    prop: 'selectall',
+    label: '是否包含下级',
+    labelWidth: 0,
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
+          value: 1
+        }
+      ]
+    }
+  },
+  {
+    field: 'euterm',
+    value: '',
+    prop: 'euterm',
+    label: '机构ID',
+    component: 'Input'
+  },
+  {
+    field: 'cashmode',
+    value: '',
+    prop: 'cashmode',
+    label: '出入金通道',
+    component: 'Select',
+    componentProps: {
+      options: cashmodeOptions
+    }
+  },
+  {
+    field: 'cashtype',
+    value: '',
+    prop: 'cashtype',
+    label: '出入金类型',
+    component: 'Select',
+    componentProps: {
+      options: cashTypeOptions
+    }
+  },
+  {
+    field: 'CurCode',
+    value: '',
+    prop: 'CurCode',
+    label: '币种',
+    component: 'Select',
+    componentProps: {
+      options: curCodeOptions
+    }
+  },
+  {
+    field: '__dateRange',
+    value: '',
+    prop: '__dateRange',
+    label: '查询时间',
+    rangeSeparator: 'To',
+    component: 'DatePicker',
+    componentProps: {
+      type: 'daterange'
+    }
+  }
+]
+
+export const cashRecordTableColumns: TableColumn[] = [
+  {
+    field: 'id',
+    prop: 'id',
+    label: '订单ID'
+  },
+  {
+    prop: 'NickName',
+    field: 'NickName',
+    label: 'ID/名称'
+  },
+  {
+    prop: 'Owner',
+    field: 'Owner',
+    label: '真实姓名'
+  },
+  {
+    prop: 'UplineDirect',
+    field: 'UplineDirect',
+    label: '所属机构'
+  },
+  {
+    prop: 'CashType',
+    field: 'CashType',
+    label: '类型',
+    formatter: function (row) {
+      return getLabel(cashTypeOptions, row.CashType)
+    }
+  },
+  {
+    prop: 'PayChannel',
+    field: 'PayChannel',
+    label: '支付通道'
+  },
+  {
+    prop: 'CurCode',
+    field: 'CurCode',
+    label: '币种',
+    formatter: function (row) {
+      return getLabel(curCodeOptions, row.CurCode)
+    }
+  },
+  {
+    prop: 'Amt',
+    field: 'Amt',
+    label: '金额'
+  },
+  {
+    prop: 'Status',
+    field: 'Status',
+    label: '支付币种'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '提币地址'
+  },
+  {
+    prop: 'PayChannel',
+    field: 'PayChannel',
+    label: '支付方式'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '对公账户开户行'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '用户银行开户行'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '账号'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '姓名'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '支行'
+  },
+  {
+    prop: 'LedgerImg',
+    field: 'LedgerImg',
+    label: '凭证'
+  },
+  {
+    prop: 'Status',
+    field: 'Status',
+    label: '状态'
+  },
+  {
+    prop: 'createdat',
+    field: 'createdat',
+    label: '申请时间'
+  },
+  {
+    prop: 'Desc',
+    field: 'Desc',
+    label: '备注'
+  }
+]
+
+// 资金流水
+export const moneyFlowSearchParams: tableFieldsType[] = [
+  {
+    field: 'acct',
+    prop: 'acct',
+    value: '',
+    label: '主账户ID',
+    component: 'Input',
+    componentProps: {}
+  },
+  {
+    field: 'sac',
+    value: '',
+    prop: 'sac',
+    label: '子账户ID',
+    component: 'Input'
+  },
+  {
+    field: 'cur',
+    value: '',
+    prop: 'cur',
+    label: '币种',
+    component: 'Select',
+    componentProps: {
+      options: curCodeOptions
+    }
+  },
+  {
+    field: 'transactiontype',
+    prop: 'transactiontype',
+    label: '交易类型',
+    labelWidth: 0,
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '否',
+          value: 0
+        },
+        {
+          label: '是',
+          value: 1
+        }
+      ]
+    }
+  },
+  {
+    field: '__dateRange',
+    value: '',
+    prop: '__dateRange',
+    label: '查询时间',
+    rangeSeparator: 'To',
+    component: 'DatePicker',
+    componentProps: {
+      type: 'daterange'
+    }
+  }
+]
+export const moneyFlowTableColumns: TableColumn[] = [
+  { field: 'id', label: '流水号' },
+  { field: '', label: '时间' },
+  { field: 'CptBind', label: '户主ID' },
+  { field: 'Cpt', label: '名称' },
+  { field: 'CptAcct', label: '主账号' },
+  { field: 'CptSubacct', label: '子账号' },
+  { field: 'CurCode', label: '币种' },
+  { field: 'AmtAnchor', label: '变动金额' },
+  { field: 'AcctBalance', label: '余额' },
+  { field: '__b', label: '可用' }, //余额减去冻结
+  { field: 'AcctFrozen', label: '冻结' },
+  { field: 'CptJournal', label: '对方流水号' },
+  { field: 'Bind', label: '对方户主' },
+  { field: 'Cpt', label: '对方名称' },
+  { field: 'Acct', label: '对方主账号' },
+  { field: 'Subacct', label: '对方子账号' },
+  {
+    field: 'transactiontype',
+    label: '流水类型',
+    formater: function (row) {
+      // return getLabel()
+      console.log(row)
+      return 1
+    }
+  },
+  { field: 'Desc', label: '备注' }
 ]

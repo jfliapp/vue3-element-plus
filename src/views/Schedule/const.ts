@@ -84,6 +84,21 @@ const curCodeOptions: Options[] = [
   }
 ]
 
+const bsOptions = [
+  {
+    value: '-1',
+    label: '全部'
+  },
+  {
+    value: '1',
+    label: '买'
+  },
+  {
+    value: '2',
+    label: '卖'
+  }
+]
+
 export const accessSearchParams: tableFieldsType[] = [
   {
     field: 'partnertype',
@@ -259,8 +274,8 @@ export const accessTableColumns: TableColumn[] = [
     label: '支行'
   },
   {
-    prop: 'createdat',
-    field: 'createdat',
+    prop: 'LedgerImg',
+    field: 'LedgerImg',
     label: '凭证'
   },
   {
@@ -282,33 +297,28 @@ export const accessTableColumns: TableColumn[] = [
 
 export const confirmTableColumns: TableColumn[] = [
   {
-    field: 'id',
-    prop: 'id',
+    field: 'ID',
+    prop: 'ID',
     label: '委托单ID'
   },
   {
-    prop: 'NickName',
-    field: 'NickName',
+    prop: 'TrueName',
+    field: 'TrueName',
     label: '真实姓名'
   },
   {
-    prop: 'Owner',
-    field: 'Owner',
+    prop: 'Acct',
+    field: 'Acct',
     label: '交易账号'
   },
   {
-    prop: 'UplineDirect',
-    field: 'UplineDirect',
+    prop: 'Upline',
+    field: 'Upline',
     label: '所属机构'
   },
   {
-    prop: 'OwnerType',
-    field: 'OwnerType',
-    label: '交易品种'
-  },
-  {
-    prop: 'OwnerType',
-    field: 'OwnerType',
+    prop: 'Code',
+    field: 'Code',
     label: '交易品种'
   },
   {
@@ -322,18 +332,14 @@ export const confirmTableColumns: TableColumn[] = [
     label: '委托时间'
   },
   {
-    prop: 'Amt',
-    field: 'Amt',
+    prop: 'PriceOpen',
+    field: 'PriceOpen',
     label: '委托价格'
   },
   {
-    prop: 'Status',
-    field: 'Status',
-    label: '委托数量',
-    formatter: (item) => {
-      if (item.Status === 5) return '6'
-      return item.Status
-    }
+    prop: 'InsEta',
+    field: 'InsEta',
+    label: '委托数量'
   },
   {
     prop: 'PayChannel',
@@ -366,26 +372,27 @@ export const confirmTableColumns: TableColumn[] = [
     label: '是否自动追加保证金'
   },
   {
-    prop: 'createdat',
-    field: 'createdat',
+    prop: 'action',
+    field: 'action',
     label: '操作'
   }
 ]
+
 export const confirmSearchParams: tableFieldsType[] = [
   {
-    field: 'term',
-    value: '',
-    prop: 'term',
+    field: 'realdemo',
+    value: 0,
+    prop: 'realdemo',
     label: '数据',
     component: 'Select',
     componentProps: {
       options: [
         {
-          label: '模拟',
+          label: '真实',
           value: 0
         },
         {
-          label: '真实',
+          label: '模拟',
           value: 1
         }
       ]
@@ -417,46 +424,48 @@ export const confirmSearchParams: tableFieldsType[] = [
     }
   },
   {
-    field: 'euterm',
+    field: 'userterm',
     value: '',
-    prop: 'euterm',
+    prop: 'userterm',
     label: '用户Id',
     labelWidth: 0,
     component: 'Input'
   },
   {
-    field: 'term1',
+    field: 'acctid',
     value: '',
-    prop: 'term',
+    prop: 'acctid',
     label: '交易账户',
     component: 'Input'
   },
   {
-    field: 'term',
+    field: 'tkt',
     value: '',
-    prop: 'term',
+    prop: 'tkt',
     label: '订单ID',
     component: 'Input'
   },
   {
-    field: 'term',
+    field: 'Code',
     value: '',
-    prop: 'term',
+    prop: 'Code',
+    label: '交易品种',
+    component: 'Input'
+  },
+  {
+    field: 'bs',
+    value: '',
+    prop: 'bs',
     label: '交易类型',
     component: 'Select',
     componentProps: {
-      options: [
-        {
-          label: '1',
-          value: 1
-        }
-      ]
+      options: bsOptions
     }
   },
   {
-    field: 'term',
+    field: '',
     value: '',
-    prop: 'term',
+    prop: '',
     label: 'IP查询',
     component: 'Input'
   }

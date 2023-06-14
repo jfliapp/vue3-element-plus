@@ -16,6 +16,13 @@ export const getBizListApi = (data: any) => {
     data
   })
 }
+
+export const addBizApi = (data: any) => {
+  return request.post({
+    url: '/admin/add_biz',
+    data
+  })
+}
 // 用户新增
 export const signupApi = (data: any) => {
   return request.post({

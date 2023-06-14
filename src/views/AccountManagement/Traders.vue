@@ -81,8 +81,8 @@ const tableColumns: TableColumn[] = [
     label: '管理员'
   },
   {
-    prop: 'Amt',
-    field: 'Amt',
+    prop: 'OpStaff',
+    field: 'OpStaff',
     label: '操作员'
   },
   {
@@ -97,7 +97,7 @@ const searchParams: tableFieldsType[] = [
     value: '',
     prop: 'term',
     label: '',
-    component: 'Select'
+    component: 'Input'
   }
 ]
 const tradersList = [

@@ -23,3 +23,10 @@ export const getTradeTicketsListApi = (data: any) => {
     data
   })
 }
+
+export const ticketsconfimApi = (data: any) => {
+  return request.post({
+    url: '/admin/ticket_confim',
+    data
+  })
+}

@@ -121,7 +121,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         '/api': {
           // target: 'http://58.com/api',
           // target: 'https://initialcapital.com.tw/api/',
-          target: 'https://demo.hlives.vip/api/',
+          target: 'https://admin.hlives.vip/api/',
+          // target: 'http://192.168.3.26/api/',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }

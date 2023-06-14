@@ -72,7 +72,7 @@ service.interceptors.response.use(
       wsCache.clear()
       tagsViewStore.delAllViews()
       resetRouter() // 重置静态路由表
-      router.replace('/')
+      router.replace('/login')
     }
   },
   (error: AxiosError) => {

@@ -5,7 +5,6 @@ import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { getDate } from '@/utils/date'
 import { getLabel } from '@/utils/tsxHelper'
 import { Options } from '@/types/Options'
 // import { useI18n } from '@/hooks/web/useI18n'
@@ -216,22 +215,14 @@ const searchParams: tableFieldsType[] = [
     component: 'Input'
   },
   {
-    field: 'date',
+    field: '__dateRange',
     value: '',
-    prop: 'date',
+    prop: '__dateRange',
     label: '查询时间',
     rangeSeparator: 'To',
     component: 'DatePicker',
     componentProps: {
       type: 'daterange'
-    }
-  }
-]
-const fieldHn = [
-  {
-    name: 'date',
-    fn: (item) => {
-      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
     }
   }
 ]
@@ -242,7 +233,6 @@ const fieldHn = [
       layout="inline"
       :showReset="false"
       :schema="searchParams"
-      :fieldHn="fieldHn"
       @search="methods.setSearchParams"
     />
 

@@ -5,7 +5,6 @@ import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType } from './types'
-import { getDate } from '@/utils/date'
 import { walletSearchParams, walletColumns } from './const'
 // import { useI18n } from '@/hooks/web/useI18n'
 
@@ -41,15 +40,6 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 })
 
 methods.getList()
-
-const fieldHn = [
-  {
-    name: 'date',
-    fn: (item) => {
-      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
-    }
-  }
-]
 </script>
 <template>
   <ContentWrap>
@@ -57,7 +47,6 @@ const fieldHn = [
       layout="inline"
       :showReset="false"
       :schema="walletSearchParams"
-      :fieldHn="fieldHn"
       @search="methods.setSearchParams"
     />
 

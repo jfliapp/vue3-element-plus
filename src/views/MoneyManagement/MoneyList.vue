@@ -5,7 +5,6 @@ import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType } from './types'
-import { getDate } from '@/utils/date'
 import { moneyListSearchParams, moneyListColumns } from './const'
 // import { useI18n } from '@/hooks/web/useI18n'
 
@@ -40,14 +39,6 @@ const { register, tableObject, methods } = useTable<tableDataFieldType>({
 
 methods.getList()
 
-const fieldHn = [
-  {
-    name: 'date',
-    fn: (item) => {
-      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
-    }
-  }
-]
 const spanMethod = ({ row, columnIndex }) => {
   let columns = [0, 1, 2, 3]
   if (columns.includes(columnIndex)) {
@@ -71,7 +62,6 @@ const spanMethod = ({ row, columnIndex }) => {
       layout="inline"
       :showReset="false"
       :schema="moneyListSearchParams"
-      :fieldHn="fieldHn"
       @search="methods.setSearchParams"
     />
 

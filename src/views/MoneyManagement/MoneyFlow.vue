@@ -258,9 +258,9 @@ const searchParams: tableFieldsType[] = [
     }
   },
   {
-    field: 'date',
+    field: '__dateRange',
     value: '',
-    prop: 'date',
+    prop: '__dateRange',
     label: '查询时间',
     rangeSeparator: 'To',
     component: 'DatePicker',

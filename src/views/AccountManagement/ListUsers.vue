@@ -11,18 +11,29 @@ import { tableDataFieldType } from './types'
 import { addUserInfoParams, userInfoTableColumns, searchUserListParams } from './const'
 import { ElDialog, ElPopover, ElScrollbar, ElButton } from 'element-plus'
 import { Icon } from '@/components/Icon'
-import { useI18n } from '@/hooks/web/useI18n'
+// import { useI18n } from '@/hooks/web/useI18n'
 import { useRouter } from 'vue-router'
 import { ref, onActivated } from 'vue'
 
 // import { reactive } from 'vue'
 
-const { t } = useI18n()
+// const { t } = useI18n()
 const { push } = useRouter()
 const { register: registryForm, elFormRef, methods: methodsForm } = useForm({})
 const { register, tableObject, methods } = useTable<tableDataFieldType>({
   getListApi: getScheduleEnduserListApi,
   // delListApi: delTableListApi,
+  defaultParams: {
+    acctstatus: '',
+    begintm: '',
+    endtm: '',
+    hedge: '',
+    online: '',
+    partnerterm: '',
+    selectall: '',
+    term: '',
+    veri: ''
+  },
   response: {
     list: 'list',
     total: 'listcount'
@@ -101,6 +112,10 @@ const addUserInfoHn = async () => {
 }
 const addHn = () => {
   dialogVisible.value = true
+}
+const goTerminal = (row) => {
+  console.log(row, 'row------row')
+  window.location.href = 'http://www.baidu.com'
 }
 </script>
 <template>
@@ -183,10 +198,7 @@ const addHn = () => {
         </div>
       </template>
       <template #action="{ row }">
-        <ElButton type="primary"> {{ t('exampleDemo.edit') }}{{ row.index }} </ElButton>
-        <ElButton type="success">
-          {{ t('exampleDemo.detail') }}
-        </ElButton>
+        <span class="blue cursor-pointer" @click="goTerminal(row)">登录终端</span>
       </template>
     </Table>
   </ContentWrap>

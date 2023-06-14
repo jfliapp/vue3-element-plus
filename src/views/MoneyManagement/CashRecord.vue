@@ -5,7 +5,6 @@ import { Table } from '@/components/Table-new'
 import { Search } from '@/components/Search'
 import { useTable } from '@/hooks/web/useTable-new'
 import { tableDataFieldType, tableFieldsType } from './types'
-import { getDate } from '@/utils/date'
 import { getLabel } from '@/utils/tsxHelper'
 import { Options } from '@/types/Options'
 import { exportExcel } from '@/utils/export'
@@ -250,9 +249,9 @@ const searchParams: tableFieldsType[] = [
     component: 'Input'
   },
   {
-    field: 'date',
+    field: '__dateRange',
     value: '',
-    prop: 'date',
+    prop: '__dateRange',
     label: '查询时间',
     rangeSeparator: 'To',
     component: 'DatePicker',
@@ -261,14 +260,7 @@ const searchParams: tableFieldsType[] = [
     }
   }
 ]
-const fieldHn = [
-  {
-    name: 'date',
-    fn: (item) => {
-      return { begintm: getDate(item[0]), endtm: getDate(item[1]) }
-    }
-  }
-]
+
 const dialogVisible = ref(false)
 const sumHn = () => {
   dialogVisible.value = true
@@ -293,7 +285,6 @@ const getExcel = () => {
       layout="inline"
       :showReset="false"
       :schema="searchParams"
-      :fieldHn="fieldHn"
       :showExportExcel="true"
       :showSum="true"
       @sum-hn="sumHn"

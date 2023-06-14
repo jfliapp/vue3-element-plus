@@ -5,7 +5,7 @@ import { propTypes } from '@/utils/propTypes'
 import { ElButton } from 'element-plus'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useForm } from '@/hooks/web/useForm'
-import { findIndex } from '@/utils'
+import { findIndex, formatTime } from '@/utils'
 import { cloneDeep } from 'lodash-es'
 // import { FormSchema } from '@/types/form'
 
@@ -93,6 +93,15 @@ watch(
 const { register, elFormRef, methods } = useForm({
   model: props.model || {}
 })
+const dateRangeFn = {
+  name: '__dateRange',
+  fn: (item) => {
+    return {
+      begintm: formatTime(item[0], 'yyyy/MM/dd'),
+      endtm: formatTime(item[1], 'yyyy/MM/dd')
+    }
+  }
+}
 
 const search = async () => {
   await unref(elFormRef)?.validate(async (isValid) => {
@@ -100,8 +109,15 @@ const search = async () => {
       const { getFormData } = methods
       let model = await getFormData()
       let temp = { ...model }
-      if (props.fieldHn) {
-        props.fieldHn.forEach((item) => {
+      let fieldHns = props.fieldHn || []
+      if (temp.hasOwnProperty('__dateRange') && temp.__dateRange === '') {
+        delete temp.__dateRange
+      }
+      if (temp.__dateRange) {
+        fieldHns.push(dateRangeFn)
+      }
+      if (fieldHns.length > 0) {
+        fieldHns.forEach((item) => {
           let v = temp![item.name]
           if (v) {
             let o = item.fn(v)

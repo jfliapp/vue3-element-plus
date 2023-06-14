@@ -243,9 +243,8 @@ export const searchUserListParams: tableFieldsType[] = [
     }
   },
   {
-    field: 'date',
+    field: '__dateRange',
     value: '',
-    prop: 'date',
     label: '注册时间',
     rangeSeparator: 'To',
     component: 'DatePicker',

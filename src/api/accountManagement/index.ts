@@ -38,6 +38,14 @@ export const getUserDetailApi = (data: { eu: number }) => {
   })
 }
 
+// 基本信息 编辑
+export const setEnduserlApi = (data: any) => {
+  return request.post({
+    url: '/admin/set_enduser',
+    data
+  })
+}
+
 //获取城市列表
 export const getCountry = (data: any) => {
   return request.post({

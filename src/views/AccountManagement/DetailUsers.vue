@@ -7,7 +7,7 @@ import { reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElRow, ElCol, ElImage } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
-import { getUserDetailApi } from '@/api/accountManagement'
+import { getUserDetailApi, setEnduserlApi } from '@/api/accountManagement'
 import { cloneDeep } from 'lodash-es'
 import {
   params1,
@@ -21,6 +21,7 @@ import {
 } from './const'
 
 const { query } = useRoute()
+const routerId = Number(query?.id as string)
 
 // cloneDeep 是防止别的地方用到数据同步过去
 const basicParams = reactive(cloneDeep(params1))
@@ -34,41 +35,38 @@ const { register: authRegister, methods: authMethods } = useForm()
 const { register: pswRegister, methods: pswMethods } = useForm()
 
 const basicAction = async (flag) => {
-  basicParams.forEach((item) => {
-    if (item.isDisable) {
-      item.componentProps.disabled = flag
-    }
-  })
-  let data = await basicMethods.getFormData()
-  console.log(data, 'dddd')
+  await updateDetailData(basicMethods, basicParams, flag)
 }
 const authAction = async (flag) => {
-  authParams.forEach((item) => {
-    if (item.isDisable) {
-      item.componentProps.disabled = flag
-    }
-  })
-  let data = await authMethods.getFormData()
-  console.log(data, 'dddd')
+  await updateDetailData(authMethods, authParams, flag)
 }
 const statusAction = async (flag) => {
-  statusParams.forEach((item) => {
-    if (item.isDisable) {
-      item.componentProps.disabled = flag
-    }
-  })
-  let data = await statusMethods.getFormData()
-  console.log(data, 'dddd')
+  await updateDetailData(statusMethods, statusParams, flag)
 }
 const pswAction = async (flag) => {
-  pswParams.forEach((item) => {
+  await updateDetailData(pswMethods, pswParams, flag)
+}
+
+const updateDetailData = async (methods, params, flag) => {
+  if (flag) {
+    let obj = { id: routerId }
+    let data = await methods.getFormData()
+    params.forEach((item) => {
+      if (item.isDisable) {
+        obj[item.field] = data![item.field]
+        item.componentProps.disabled = flag
+      }
+    })
+    const res = await setEnduserlApi(obj)
+    console.log(res)
+  }
+  params.forEach((item) => {
     if (item.isDisable) {
       item.componentProps.disabled = flag
     }
   })
-  let data = await pswMethods.getFormData()
-  console.log(data, 'dddd')
 }
+
 const data1 = reactive([])
 
 const data2 = reactive([])
@@ -86,7 +84,7 @@ const previewSrcList = [
 ]
 
 onMounted(async () => {
-  const res = await getUserDetailApi({ eu: Number(query.id) })
+  const res = await getUserDetailApi({ eu: routerId })
   console.log(res)
 })
 </script>

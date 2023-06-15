@@ -374,9 +374,8 @@ export const userInfoTableColumns: TableColumn[] = [
 // -------------------- start --- 用户详情--------------------
 export const params1: tableFieldsType[] = [
   {
-    field: 'partnerterm',
+    field: 'id',
     value: '',
-    prop: 'partnerterm',
     label: '用户ID',
     component: 'Input',
     componentProps: {
@@ -384,8 +383,7 @@ export const params1: tableFieldsType[] = [
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'Caption',
     label: '昵称',
     component: 'Input',
     isDisable: true,
@@ -394,9 +392,9 @@ export const params1: tableFieldsType[] = [
     }
   },
   {
-    field: 'euterm',
+    field: 'TrueName',
     value: '',
-    prop: 'euterm',
+    prop: 'TrueName',
     label: '真实姓名',
     component: 'Input',
     componentProps: {
@@ -410,22 +408,12 @@ export const params1: tableFieldsType[] = [
     component: 'Select',
     value: [],
     componentProps: {
-      disabled: true,
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
+      disabled: true
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'Introducer',
+    prop: 'Introducer',
     label: '邀请人',
     component: 'Input',
     isDisable: true,
@@ -434,28 +422,18 @@ export const params1: tableFieldsType[] = [
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'upline',
+    prop: 'upline',
     label: '所属机构',
     component: 'Input',
     isDisable: true,
     componentProps: {
-      disabled: true,
-      options: [
-        {
-          label: '否',
-          value: 0
-        },
-        {
-          label: '是',
-          value: 1
-        }
-      ]
+      disabled: true
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'tel',
+    prop: 'tel',
     label: '手机号',
     component: 'Input',
     isDisable: true,
@@ -464,8 +442,8 @@ export const params1: tableFieldsType[] = [
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'mail',
+    prop: 'mail',
     label: '邮箱',
     component: 'Input',
     isDisable: true,
@@ -477,10 +455,10 @@ export const params1: tableFieldsType[] = [
     field: 'selectall',
     prop: 'selectall',
     label: '证件类型',
-    component: 'Select',
+    component: 'Input',
     componentProps: {
-      disabled: true,
-      options: [{ value: 1, label: '身份证' }]
+      disabled: true
+      // options: [{ value: 1, label: '身份证' }]
     }
   },
   {
@@ -502,8 +480,8 @@ export const params1: tableFieldsType[] = [
     }
   },
   {
-    field: 'selectall',
-    prop: 'selectall',
+    field: 'Tagline',
+    prop: 'Tagline',
     label: '成本',
     component: 'Input',
     isDisable: true,

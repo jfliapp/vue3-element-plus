@@ -47,7 +47,7 @@ interface TableObject<T = any> {
 export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   const tableObject = reactive<TableObject<T>>({
     // 页数
-    pageSize: 10,
+    pageSize: 50,
     // 当前页
     currentPage: 1,
     // 总条数
